@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <title>Cadastro de Funcionários - Academia</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Cadastro de Funcionários</h1>
+
+        <!-- Feedback de Sucesso ou Erro -->
+        <div id="mensagem" class="alert d-none"></div>
+
+        <!-- Formulário -->
+        <form id="cadastroForm" class="row g-3">
+            <div class="col-md-6">
+                <label for="inputNome" class="form-label">Nome</label>
+                <input type="text" class="form-control" id="inputNome" placeholder="Nome do Funcionário" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="inputTelefone" class="form-label">Telefone</label>
+                <input type="text" class="form-control" id="inputTelefone" placeholder="(11) 99999-9999" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="inputCpf" class="form-label">CPF</label>
+                <input type="text" class="form-control" id="inputCpf" placeholder="123.456.789-00" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="inputCargo" class="form-label">Cargo</label>
+                <select id="inputCargo" class="form-select" required>
+                    <option value="">Selecione um cargo</option>
+                    <option value="1">Personal Trainer (Código: 1)</option>
+                    <option value="2">Recepcionista (Código: 2)</option>
+                    <option value="3">Gerente (Código: 3)</option>
+                    <option value="4">Faxineiro (Código: 4)</option>
+                </select>
+            </div>
+
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Cadastrar</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
