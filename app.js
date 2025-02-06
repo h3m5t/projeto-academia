@@ -6,11 +6,11 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var funcionarioRouter = require ('./routes/funcionario')
-var clienteRouter = require ('./routes/cliente')
-var pagamentoRouter = require ('./routes/pagamento')
-var horarioRouter = require ('./routes/horario')
-var registrosRouter = require ('./routes/registros')
+var funcionarioRouter = require ('./routes/funcionario');
+var clienteRouter = require ('./routes/cliente');
+var pagamentoRouter = require ('./routes/pagamento');
+var horarioRouter = require ('./routes/horario');
+var registrosRouter = require ('./routes/registros');
 
 var app = express();
 
@@ -26,11 +26,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/funcionario',funcionarioRouter)
-app.use('/cliente',clienteRouter)
-app.use('/pagamento',pagamentoRouter)
-app.use('/horarios',horarioRouter)
-app.use('/registros',registrosRouter)
+app.use('/funcionario',funcionarioRouter);
+app.use('/cliente',clienteRouter);
+app.use('/pagamento',pagamentoRouter);
+app.use('/horarios',horarioRouter);
+app.use('/registros',registrosRouter);
 
 
 

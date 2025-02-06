@@ -7,7 +7,4 @@ router.get('/', function(req, res, next) {
 });
 
 
-
-
-
-/* como add */
+module.exports = router;

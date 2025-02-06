@@ -14,4 +14,6 @@ throw erro;
 console.log('Conectado ao BD...');
 });
 global.db = db;
+
+
 module.exports = db;
