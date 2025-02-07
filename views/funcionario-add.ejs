@@ -2,7 +2,6 @@
 <html lang="pt-BR">
 
 <head>
-    <!-- add o jquery-->
     <title>Cadastro de Funcionários - Academia</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,22 +9,44 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script>
         $(document).ready(function () {
-            function getCargo() { /* Função para obter as nacionalidades da rota*/
+            function getCargo() { 
                 $.ajax({
-                    url: "/cargos", /* Chamada da rota*/
-                    type: "GET", /* Método usado pela rota*/
-                    dataType: "json", /* Tipo de dado retornado pela rota*/
-                    success: function (res) { /* Inclui os elementos do <select>*/
+                    url: "/cargo/listar", 
+                    type: "GET", 
+                    dataType: "json", 
+                    success: function (res) { 
                         $("#inputCargo").html("<option selected>(Selecione um cargo)</option>");
                         $.each(res.resultado, function (key, value) {
-                            $("#inputCargo").append( /* Inclui os elementos vindos da rota */
+                            $("#inputCargo").append( 
                                 "<option value=" + value.id_cargo + ">" + value.nome_cargo + "</option>"
                             );
                         });
                     },
+                    error: function() {
+                        alert("Erro ao carregar cargos.");
+                    }
                 });
             }
             getCargo();
+
+            // Feedback para quando o formulário for enviado
+            $("#cadastroForm").submit(function(e) {
+                e.preventDefault(); // Impede o envio automático
+                $.ajax({
+                    url: '/funcionario/add',
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        $('#mensagem').removeClass('d-none').addClass('alert-success').text('Funcionário cadastrado com sucesso!');
+                        setTimeout(function() {
+                            window.location.href = '/funcionario/listar';
+                        }, 2000);
+                    },
+                    error: function(xhr, status, error) {
+                        $('#mensagem').removeClass('d-none').addClass('alert-danger').text('Erro ao cadastrar o funcionário!');
+                    }
+                });
+            });
         });
     </script>
 </head>
@@ -38,29 +59,37 @@
         <div id="mensagem" class="alert d-none"></div>
 
         <!-- Formulário -->
-        <form method="POST" action="/funcionarios/add" id="cadastroForm" class="row g-3">
+        <form method="POST" action="/funcionario/add" id="cadastroForm" class="row g-3">
             <div class="col-md-6">
                 <label for="inputNome" class="form-label">Nome</label>
-                <input type="text" class="form-control" id="inputNome" placeholder="Nome do Funcionário" required>
+                <input type="text" class="form-control" id="inputNome" name="nome" placeholder="Digite o nome do funcionario" required>
             </div>
 
             <div class="col-md-6">
                 <label for="inputTelefone" class="form-label">Telefone</label>
-                <input type="text" class="form-control" id="inputTelefone" placeholder="(84) 99999-9999" required>
+                <input type="text" class="form-control" id="inputTelefone" name="telefone" placeholder="(84) 99999-9999" required>
             </div>
 
             <div class="col-md-6">
                 <label for="inputCpf" class="form-label">CPF</label>
-                <input type="text" class="form-control" id="inputCpf" placeholder="123.456.789-00" required>
+                <input type="text" class="form-control" id="inputCpf" name="cpf" placeholder="123.456.789-00" required>
+            </div>
+            <div class="col-md-6">
+                <label for="inputMatricula" class="form-label">Número da Matrícula</label>
+                <input type="text" class="form-control" id="inputMatricula" name="matricula" placeholder="Digite o número da matrícula" required>
             </div>
             
             <div class="col-md-6">
                 <label for="inputCargo" class="form-label">Cargo</label>
-                <select id="inputCargo" class="form-select" required>
+                <select id="inputCargo" class="form-select" name="cargo" required>
                     <option selected>Selecione um cargo</option>
                 </select>
             </div> 
 
+            <div>
+                <label for="inputDataNascimento">Data de Nascimento</label>
+                <input type="date" id="inputDataNascimento" name="nascimento" required>
+            </div>
 
             <div class="col-12">
                 <button type="submit" class="btn btn-primary">Cadastrar</button>

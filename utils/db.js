@@ -11,7 +11,7 @@ db.connect(function(erro) {
 if (erro){
 throw erro;
 }
-console.log('Conectado ao BD...');
+console.log('Show');
 });
 global.db = db;
 
