@@ -1,11 +1,34 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <title>Cadastro de Funcionários - Academia</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            function getCargo() { /* Função para obter as nacionalidades da rota*/
+                $.ajax({
+                    url: "/cargo/add", /* Chamada da rota*/
+                    type: "GET", /* Método usado pela rota*/
+                    dataType: "json", /* Tipo de dado retornado pela rota*/
+                    success: function (res) { /* Inclui os elementos do <select>*/
+                        $("#inputCargo").html("<option selected>(Selecione um cargo)</option>");
+                        $.each(res.resultado, function (key, value) {
+                            $("#inputCargo").append( /* Inclui os elementos vindos da rota */
+                                "<option value=" + value.id_cargo + ">" + value.nome_cargo + "</option>"
+                            );
+                        });
+                    },
+                });
+            }
+            getCargo();
+        });
+    </script>
 </head>
+
 <body>
     <div class="container mt-5">
         <h1 class="mb-4">Cadastro de Funcionários</h1>
@@ -22,25 +45,21 @@
 
             <div class="col-md-6">
                 <label for="inputTelefone" class="form-label">Telefone</label>
-                <input type="text" class="form-control" id="inputTelefone" placeholder="(11) 99999-9999" required>
+                <input type="text" class="form-control" id="inputTelefone" placeholder="(84) 99999-9999" required>
             </div>
 
             <div class="col-md-6">
                 <label for="inputCpf" class="form-label">CPF</label>
                 <input type="text" class="form-control" id="inputCpf" placeholder="123.456.789-00" required>
             </div>
-<!-- 
+            
             <div class="col-md-6">
                 <label for="inputCargo" class="form-label">Cargo</label>
                 <select id="inputCargo" class="form-select" required>
-                    <option value="">Selecione um cargo</option>
-                    <option value="1">Personal Trainer (Código: 1)</option>
-                    <option value="2">Recepcionista (Código: 2)</option>
-                    <option value="3">Gerente (Código: 3)</option>
-                    <option value="4">Faxineiro (Código: 4)</option>
+                    <option selected>Selecione um cargo</option>
                 </select>
-            </div>  -->
-            
+            </div> 
+
 
             <div class="col-12">
                 <button type="submit" class="btn btn-primary">Cadastrar</button>
@@ -52,4 +71,5 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
+
 </html>

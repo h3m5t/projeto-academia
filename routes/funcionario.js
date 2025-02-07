@@ -39,5 +39,17 @@ router.post('/add',function(req,res){
     });
 });
 
+
+router.get('/cargo', function(req, res) {
+  let cmd = 'SELECT id_cargo, nome_cargo FROM tbcargo;';
+  
+  db.query(cmd, [], function(erro, resultados) { 
+    if (erro) {
+      return res.send(erro);
+    }
+    res.json({resultado: resultados}); 
+  });
+});
+
 module.exports = router;
 
