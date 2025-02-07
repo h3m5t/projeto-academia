@@ -12,7 +12,7 @@
         $(document).ready(function () {
             function getCargo() { /* Função para obter as nacionalidades da rota*/
                 $.ajax({
-                    url: "/cargo/add", /* Chamada da rota*/
+                    url: "/cargos", /* Chamada da rota*/
                     type: "GET", /* Método usado pela rota*/
                     dataType: "json", /* Tipo de dado retornado pela rota*/
                     success: function (res) { /* Inclui os elementos do <select>*/

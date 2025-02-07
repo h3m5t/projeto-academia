@@ -11,6 +11,7 @@ var clienteRouter = require ('./routes/cliente');
 var pagamentoRouter = require ('./routes/pagamento');
 var horarioRouter = require ('./routes/horario');
 var registrosRouter = require ('./routes/registros');
+var cargoRouter = require ('./routes/cargo');
 
 var app = express();
 
@@ -31,7 +32,7 @@ app.use('/cliente',clienteRouter);
 app.use('/pagamento',pagamentoRouter);
 app.use('/horarios',horarioRouter);
 app.use('/registros',registrosRouter);
-
+app.use('/cargo',cargoRouter);
 
 
 
