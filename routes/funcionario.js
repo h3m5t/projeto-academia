@@ -28,11 +28,10 @@ router.post('/add', function(req, res) {
   let telefone = req.body.telefone;
   let nascimento = req.body.nascimento;
   let cargo = req.body.cargo;
-  let matricula = req.body.matricula
 
-  let cmd = 'INSERT INTO tbfuncionario (nome_func, tel_func, cpf_func, dt_nascimento, id_cargo,mat_funcionario) VALUES (?, ?, ?, ?, ?, ?);';
+  let cmd = 'INSERT INTO tbfuncionario (nome_func, tel_func, cpf_func, dt_nascimento, id_cargo) VALUES ( ?, ?, ?, ?, ?);';
 
-  db.query(cmd, [nome, cpf, telefone, nascimento, cargo,matricula], function(erro, resultado) {
+  db.query(cmd, [nome, cpf, telefone, nascimento, cargo], function(erro, resultado) {
       if (erro) {
           console.error('Erro ao adicionar funcionário:', erro);
           return res.status(500).send('Erro ao adicionar funcionário');
@@ -49,8 +48,6 @@ router.post('/add', function(req, res) {
 /* Rota para editar Funcionario */
 
   
-
-
 
 module.exports = router;
 
