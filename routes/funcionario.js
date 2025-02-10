@@ -6,7 +6,7 @@ let db = require('../utils/db');
 /* Rota listar funcionários*/
 router.get('/listar',function(req,res){
     let cmd = 'SELECT mat_funcionario AS Matricula, nome_func AS Nome, tel_func AS contato,'
-    cmd +=     'dt_nascimento AS Aniversário, cpf_func AS Cpf '
+    cmd +=     'DATE_FORMAT(dt_nascimento,"%d/%m/%Y") AS Aniversario, cpf_func AS Cpf '
     cmd +=     'FROM tbfuncionario;'
     db.query(cmd, [], function(erro, listagem){
       if(erro){

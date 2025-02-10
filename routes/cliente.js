@@ -5,7 +5,7 @@ let db = require('../utils/db');
 
 /* Rota para listar Clientes --> add COMO SABER SE O CLIENTE POSSUI OU NAO PLANO DE TREINO????*/ 
 router.get('/listar', function(req, res) {
-    let cmd = 'SELECT nome_cliente AS nome, dt_nascimento AS aniversario, ';
+    let cmd = 'SELECT nome_cliente AS nome, DATE_FORMAT(dt_nascimento,"%d/%m/%Y") AS aniversario, ';
     cmd += 'cpf_cliente AS cpf, tel_cliente AS Contato, id_cliente AS Inscrição ';
     cmd += 'FROM tbcliente;';
 
