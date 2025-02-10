@@ -19,7 +19,7 @@ router.get('/listar',function(req,res){
 
 /* Rota para add Funcionario */
 router.get('/add',function(req,res){
-   res.render('funcionario-add');
+   res.render('funcionario-add',{resultado:{}});
 })
 
 router.post('/add', function(req, res) {
@@ -46,7 +46,19 @@ router.post('/add', function(req, res) {
 
 
 /* Rota para editar Funcionario */
+router.get('/editar/:mat',function(req,res){
+  let mat = req.params.mat
 
+  let cmd = 'SELECT mat_funcionario AS Matricula, nome_func AS Nome, tel_func AS contato,'
+  cmd +=     'DATE_FORMAT(dt_nascimento,"%d/%m/%Y") AS Aniversario, cpf_func AS Cpf '
+  cmd +=     'FROM tbfuncionario WHERE mat_funcionario = ?;'
+  db.query(cmd, [mat], function(erro, listagem){
+    if(erro){
+      res.send(erro);
+    }
+    res.render('funcionario-add', {resultado: listagem[0]});
+  });
+});
   
 
 module.exports = router;

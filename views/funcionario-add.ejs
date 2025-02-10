@@ -101,18 +101,28 @@
 
 <body>
     <div class="container mt-5">
+        <% if(resultado.mat_funcionario) {%>
+            <input type="hidden" id="nome_func" name="nome_func" value="<% resultado.nome_func%>" >
+            <h1 class="mb-4">Alterar Funcionários</h1>
+            <form method="#" action="/funcionario/editar<%= resultado.mat_funcionario %>" id="alterarForm" class="row g-3">
+        <%} else {%>
         <h1 class="mb-4">Cadastro de Funcionários</h1>
-
         <!-- Feedback de Sucesso ou Erro -->
         <div id="mensagem" class="alert d-none"></div>
-
         <!-- Formulário -->
         <form method="POST" action="/funcionario/add" id="cadastroForm" class="row g-3">
+            <%}%>
+
+
             <div class="col-md-6">
                 <label for="inputNome" class="form-label">Nome</label>
-                <input type="text" class="form-control" id="inputNome" name="nome" placeholder="Digite o nome do funcionario" required>
+                <% if (resultado.mat_funcionario) {%>
+                    <input type="text" class="form-control" id="inputNome" name="nome" placeholder="Digite o nome do funcionario" value="<%= resultado.nome_func%>" required>
+                    <%} else {%>
+                        <input type="text" class="form-control" id="inputNome" name="nome" placeholder="Digite o nome do funcionario" required>
+                        <%}%>
             </div>
-
+           
             <div class="col-md-6">
                 <label for="inputTelefone" class="form-label">Telefone</label>
                 <input type="text" class="form-control" id="inputTelefone" name="telefone" placeholder="(84) 99999-9999" required>

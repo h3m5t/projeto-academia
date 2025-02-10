@@ -45,8 +45,8 @@
                         <tr>
                             <td><%= item.Nome %></td>
                             <td>
-                                <button class="btn btn-outline-secondary">Editar</button> 
-                                <button class="btn btn-danger">Excluir</button>
+                                <a href="/funcionario/editar/<%=item.Matricula%>" class="btn btn-outline-secondary">Editar</a> 
+                                <a href="/funcionario/apagar/<%=item.Matricula%>" class="btn btn-danger">Excluir</a> 
                                 <!-- Botão para abrir modal -->
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-<%= item.Matricula %>">Sobre</button>
                             </td>
