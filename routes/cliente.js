@@ -21,13 +21,8 @@ router.get('/listar', function(req, res) {
 
 
 /* Rota para add Clientes */
-route.get('/add', function(req,res){
-    res.render('cliente-add')
-})
 
-route.post('/add', function(req,res){
-    
-})
+
 
 
 /* Rota para editar Clientes */
