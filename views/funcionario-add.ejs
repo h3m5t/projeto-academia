@@ -101,10 +101,10 @@
 
 <body>
     <div class="container mt-5">
-        <% if(resultado.mat_funcionario) {%>
-            <input type="hidden" id="nome_func" name="nome_func" value="<% resultado.nome_func%>" >
+        <% if(resultado.Matricula) {%>
+            <input type="hidden" id="Matricula" name="Matricula" value="<% resultado.Matricula%>"></input>
             <h1 class="mb-4">Alterar Funcionários</h1>
-            <form method="#" action="/funcionario/editar<%= resultado.mat_funcionario %>" id="alterarForm" class="row g-3">
+            <form method="#" action="/funcionario/editar<%= resultado.Matricula %>" class="row g-3">
         <%} else {%>
         <h1 class="mb-4">Cadastro de Funcionários</h1>
         <!-- Feedback de Sucesso ou Erro -->
@@ -114,25 +114,41 @@
             <%}%>
 
 
+
             <div class="col-md-6">
                 <label for="inputNome" class="form-label">Nome</label>
-                <% if (resultado.mat_funcionario) {%>
-                    <input type="text" class="form-control" id="inputNome" name="nome" placeholder="Digite o nome do funcionario" value="<%= resultado.nome_func%>" required>
+                <% if (resultado.Matricula) {%>
+                    <input type="text" class="form-control" id="inputNome" name="nome" placeholder="Digite o nome do funcionario" value="<%= resultado.Nome%>">
                     <%} else {%>
                         <input type="text" class="form-control" id="inputNome" name="nome" placeholder="Digite o nome do funcionario" required>
                         <%}%>
             </div>
+
+
+
            
             <div class="col-md-6">
                 <label for="inputTelefone" class="form-label">Telefone</label>
+                <% if (resultado.Matricula) {%>
+                <input type="text" class="form-control" id="inputTelefone" name="telefone" placeholder="(84) 99999-9999"  value="<%= resultado.contato%>" >
+                <%} else   {%>
                 <input type="text" class="form-control" id="inputTelefone" name="telefone" placeholder="(84) 99999-9999" required>
+                    <%}%>
             </div>
+
+
 
             <div class="col-md-6">
                 <label for="inputCpf" class="form-label">CPF</label>
+                <% if (resultado.Matricula) {%>
+                <input type="text" class="form-control" id="inputCpf" name="cpf" placeholder="123.456.789-00"  value="<%= resultado.Cpf%>" >
+                <%} else   {%>
                 <input type="text" class="form-control" id="inputCpf" name="cpf" placeholder="123.456.789-00" required>
+                    <%}%>
             </div>
             
+
+
             <div class="col-md-6">
                 <label for="inputCargo" class="form-label">Cargo</label>
                 <select id="inputCargo" class="form-select" name="cargo" required>
@@ -142,9 +158,13 @@
 
             <div class="input-container">
                 <label for="inputDataNascimento">Data de Nascimento</label>
+                <% if (resultado.Matricula) {%>
                 <div class="input-wrapper">
                     <span class="icon">📅</span>
-                    <input type="date" id="inputDataNascimento" name="nascimento" required>
+                    <input type="date" id="inputDataNascimento" name="nascimento"  value="<%= resultado.Aniversario%> >
+                    <%} else   {%>
+                        <input type="date" id="inputDataNascimento" name="nascimento" required>
+                        <%}%>
                 </div>
             </div>
 
