@@ -27,6 +27,19 @@
                     }
                 });
             }
+            function altera(Matricula) { 
+                $.ajax({
+                    url: "/funcionario/editar" + Matricula, 
+                    type: "PUT", 
+                    dataType: "nome=" + $("#Input").val() + "&naosei" + ,
+                    success: function (res) { 
+                    
+                    },
+                    error: function() {
+                        alert("Erro ao carregar cargos.");
+                    }
+                });
+            }
             getCargo();
 
             // Feedback para quando o formulário for enviado
@@ -53,7 +66,6 @@
 <style>
     body {
         font-family: Arial, sans-serif;
-        display: flex;
         justify-content: center;
         align-items: center;
         height: 100vh;
@@ -101,17 +113,16 @@
 
 <body>
     <div class="container mt-5">
-        <% if(resultado.Matricula) {%>
-            <input type="hidden" id="Matricula" name="Matricula" value="<% resultado.Matricula%>"></input>
+        <% if (resultado.Matricula) { %>
+            <input type="hidden" id="Matricula" name="Matricula" value="<%= resultado.Matricula %>">
             <h1 class="mb-4">Alterar Funcionários</h1>
-            <form method="#" action="/funcionario/editar<%= resultado.Matricula %>" class="row g-3">
-        <%} else {%>
-        <h1 class="mb-4">Cadastro de Funcionários</h1>
-        <!-- Feedback de Sucesso ou Erro -->
-        <div id="mensagem" class="alert d-none"></div>
-        <!-- Formulário -->
-        <form method="POST" action="/funcionario/add" id="cadastroForm" class="row g-3">
-            <%}%>
+            <form method="#" action="/funcionario/editar/<%= resultado.Matricula %>" class="row g-3">
+        <% } else { %>
+            <h1 class="mb-4">Cadastro de Funcionários</h1>
+            <div id="mensagem" class="alert d-none"></div>
+            <form method="POST" action="/funcionario/add" id="cadastroForm" class="row g-3">
+        <% } %>
+        
 
 
 
@@ -161,11 +172,16 @@
                 <% if (resultado.Matricula) {%>
                 <div class="input-wrapper">
                     <span class="icon">📅</span>
-                    <input type="date" id="inputDataNascimento" name="nascimento"  value="<%= resultado.Aniversario%> >
-                    <%} else   {%>
-                        <input type="date" id="inputDataNascimento" name="nascimento" required>
-                        <%}%>
+                    <input type="date" id="inputDataNascimento" name="nascimento"  value="<%= resultado.Aniversario%>" >
                 </div>
+
+                    <%} else   {%>
+                        <div class="input-wrapper">
+                            <span class="icon">📅</span>
+                            <input type="date" id="inputDataNascimento" name="nascimento" required>
+                        </div>
+                        <%}%>
+               
             </div>
 
             <div class="col-12">

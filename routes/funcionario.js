@@ -70,9 +70,9 @@ router.put('/editar/:mat', function(req, res) {
 
   let cmd = 'UPDATE tbfuncionario SET nome_func = ?, tel_func = ?, cpf_func = ?, dt_nascimento = ?, id_cargo= ? WHERE mat_funcionario = ? ;';
 
-  db.query(cmd, [nome, cpf, telefone, nascimento, cargo], function(erro, resultado) {
+  db.query(cmd, [nome, telefone, cpf, nascimento, cargo, mat], function(erro, resultado) {
       if (erro) {
-          return res.status(500).send('Erro ao adicionar funcionário');
+          return res.status(500).send('Erro ao modificar o funcionário');
       }
 
       res.redirect(303, '/funcionario/listar');
