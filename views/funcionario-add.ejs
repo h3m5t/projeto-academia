@@ -53,7 +53,6 @@
 <style>
     body {
         font-family: Arial, sans-serif;
-        display: flex;
         justify-content: center;
         align-items: center;
         height: 100vh;
@@ -161,9 +160,12 @@
                 <% if (resultado.Matricula) {%>
                 <div class="input-wrapper">
                     <span class="icon">📅</span>
-                    <input type="date" id="inputDataNascimento" name="nascimento"  value="<%= resultado.Aniversario%> >
+                    <input type="date" id="inputDataNascimento" name="nascimento"  value="<%= resultado.Aniversario%>" >
                     <%} else   {%>
-                        <input type="date" id="inputDataNascimento" name="nascimento" required>
+                        <div class="input-wrapper">
+                            <span class="icon">📅</span>
+                            <input type="date" id="inputDataNascimento" name="nascimento" required>
+                            </div>
                         <%}%>
                 </div>
             </div>
