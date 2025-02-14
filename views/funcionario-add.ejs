@@ -27,22 +27,7 @@
                     }
                 });
             }
-            function altera(Matricula) { 
-                $.ajax({
-                    url: "/funcionario/editar" + Matricula, 
-                    type: "PUT", 
-                    dataType: "nome=" + $("#Input").val() + "&naosei" + ,
-                    success: function (res) { 
-                    
-                    },
-                    error: function() {
-                        alert("Erro ao carregar cargos.");
-                    }
-                });
-            }
-            getCargo();
-
-            // Feedback para quando o formulário for enviado
+               // Feedback para quando o formulário for enviado
             $("#cadastroForm").submit(function(e) {
                 e.preventDefault(); // Impede o envio automático
                 $.ajax({
@@ -60,6 +45,25 @@
                     }
                 });
             });
+            function setCargo() {
+                $.ajax({
+                    success: function (res) {
+                        let cargo = $("#id_cargo").val();
+                        $("#inputCargo option").each(function () {
+                            if ($(this).val() == cargo) {
+                                $("#inputCargo option[value='" + cargo + "']").attr('selected', 'selected');
+                            }
+                        });
+                    },
+                });
+            }
+
+            getCargo();
+            setCargo();
+            
+
+         
+           
         });
     </script>
 
@@ -114,7 +118,7 @@
 <body>
     <div class="container mt-5">
         <% if (resultado.Matricula) { %>
-            <input type="hidden" id="Matricula" name="Matricula" value="<%= resultado.Matricula %>">
+            <input type="hidden" id="id_cargo" name="id_cargo" value="<%= resultado.id_cargo %>">
             <h1 class="mb-4">Alterar Funcionários</h1>
             <form method="#" action="/funcionario/editar/<%= resultado.Matricula %>" class="row g-3">
         <% } else { %>
@@ -160,12 +164,17 @@
             
 
 
+
+
             <div class="col-md-6">
                 <label for="inputCargo" class="form-label">Cargo</label>
                 <select id="inputCargo" class="form-select" name="cargo" required>
                     <option selected>Selecione um cargo</option>
                 </select>
             </div> 
+
+
+
 
             <div class="input-container">
                 <label for="inputDataNascimento">Data de Nascimento</label>
