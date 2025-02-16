@@ -10,7 +10,6 @@
 <style>
     body {
         font-family: Arial, sans-serif;
-        display: flex;
         justify-content: center;
         align-items: center;
         height: 100vh;
@@ -67,26 +66,45 @@
         <form method="POST" action="/cliente/add" id="cadastroForm" class="row g-3">
             <div class="col-md-6">
                 <label for="inputNome" class="form-label">Nome</label>
-                <input type="text" class="form-control" id="inputnome" name="Nome" placeholder="Digite o nome do cliente" required>
+                <% if (resultado.Inscrição) {%>
+                <input type="text" class="form-control" id="inputnome" name="nome" placeholder="Digite o nome do cliente" value="">
+                <%} else   {%>
+                    <input type="text" class="form-control" id="inputnome" name="nome" placeholder="Digite o nome do cliente" required>
+                    <%}%>
             </div>
 
             <div class="col-md-6">
                 <label for="inputTelefone" class="form-label">Telefone</label>
-                <input type="text" class="form-control" id="inputtelefone" name="Telefone" placeholder="(84) 99999-9999" required>
+                <% if (resultado.Inscrição) {%>
+                <input type="text" class="form-control" id="inputtelefone" name="tel" placeholder="(84) 99999-9999" value="">
+                <%} else   {%>
+                    <input type="text" class="form-control" id="inputtelefone" name="tel" placeholder="(84) 99999-9999" required>
+                    <%}%>
             </div>
 
             <div class="col-md-6">
                 <label for="inputCpf" class="form-label">CPF</label>
-                <input type="text" class="form-control" id="inputcpf" name="Cpf" placeholder="123.456.789-00" required>
+                <% if (resultado.Inscrição) {%>
+                <input type="text" class="form-control" id="inputcpf" name="cpf" placeholder="123.456.789-00" value="">
+                <%} else   {%>
+                    <input type="text" class="form-control" id="inputcpf" name="cpf" placeholder="123.456.789-00" required>
+                    <%}%>
             </div>
             
 
             <div class="input-container">
                 <label for="inputDataNascimento">Data de Nascimento</label>
+                <% if (resultado.Inscrição) {%>
                 <div class="input-wrapper">
                     <span class="icon">📅</span>
-                    <input type="date" id="inputdataNascimento" name="Nascimento" required>
+                    <input type="date" id="inputdataNascimento" name="dt_nasc" value="">
                 </div>
+                <%} else   {%>
+                    <div class="input-wrapper">
+                        <span class="icon">📅</span>
+                        <input type="date" id="inputdataNascimento" name="dt_nasc" required>
+                    </div>
+                    <%}%>
             </div>
 
             <div class="col-12">

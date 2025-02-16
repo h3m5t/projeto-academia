@@ -46,8 +46,8 @@
                         <tr>
                             <td><%= cliente.nome %></td>
                             <td>
-                                <button class="btn btn-outline-secondary">Editar</button> 
-                                <button class="btn btn-danger">Excluir</button>
+                                <a href="/cliente/editar/<%=item.Inscrição%>" class="btn btn-outline-secondary">Editar</a> 
+                                <a href="/cliente/editar/<%=item.Inscrição%>" class="btn btn-outline-secondary">Editar</a> 
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-cliente-<%= cliente.Inscrição %>">Sobre</button>
                             </td>
                         </tr>
