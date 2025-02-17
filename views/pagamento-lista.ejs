@@ -26,7 +26,7 @@
             <li class="nav-item"><a class="nav-link" href="http://localhost:3000/cliente/listar">Clientes</a></li>
             <li class="nav-item"><a class="nav-link" href="http://localhost:3000/funcionario/listar">Funcionários</a></li>
             <li class="nav-item"><a class="nav-link active" href="http://localhost:3000/pagamento/listar">Pagamentos</a></li>
-            <li class="nav-item"><a class="nav-link" href="http://localhost:3000/horario/listar">Horários</a></li>
+            <li class="nav-item"><a class="nav-link" href="http://localhost:3000/horarios/listar">Horários</a></li>
         </ul>
 
         <div class="tab-content">
@@ -43,30 +43,28 @@
                     <tbody>
                         <% for (let item of resultado) { %>
                         <tr>
-                            <td><%= item.Nome %></td>
+                            <td><%= item.Nome %></td> <!-- nomear pagamento?? -->
                             <td>
-                                <button class="btn btn-outline-secondary">Editar</button> 
-                                <button class="btn btn-danger">Excluir</button>
                                 <!-- Botão para abrir modal -->
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-<%= item.Matricula %>">Sobre</button>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-<%= item.pagamento %>">Informações</button>
                             </td>
                         </tr>
 
                         <!-- Modal -->
-                        <div class="modal fade" id="modal-<%= item.Matricula %>" tabindex="-1" aria-labelledby="modalLabel-<%= item.Matricula %>" aria-hidden="true">
+                        <div class="modal fade" id="modal-<%= item.pagamento %>" tabindex="-1" aria-labelledby="modalLabel-<%= item.pagamento %>" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title">Informações do Funcionário</h5>
+                                        <h5 class="modal-title">Informações do Pagamento</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
                                         <ul>
-                                            <li><strong>Nome:</strong> <%= item.Nome %></li>
-                                            <li><strong>Telefone:</strong> <%= item.contato %></li>
-                                            <li><strong>Data de Nascimento:</strong> <%= item.Aniversario %></li>
-                                            <li><strong>CPF:</strong> <%= item.Cpf %></li>
-                                            <li><strong>Matrícula:</strong> <%= item.Matricula %></li>
+                                            <li><strong>Matricula do Cliente:</strong> <%= item.Nome %></li>
+                                            <li><strong>Data do pagamento:</strong> <%= item.Aniversario %></li>
+                                            <li><strong>Valor:</strong> <%= item.Matricula %></li>
+                                            <li><strong>Tipo do Plano:</strong><%= item.Matricula %> </li>
+
                                         </ul>
                                     </div>
                                 </div>

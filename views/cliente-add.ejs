@@ -76,7 +76,7 @@
             <div class="col-md-6">
                 <label for="inputTelefone" class="form-label">Telefone</label>
                 <% if (resultado.Inscrição) {%>
-                <input type="text" class="form-control" id="inputtelefone" name="tel" placeholder="(84) 99999-9999" value="">
+                <input type="text" class="form-control" id="inputtelefone" name="tel" placeholder="(84) 99999-9999" value="<% resultado.Inscrição%>">
                 <%} else   {%>
                     <input type="text" class="form-control" id="inputtelefone" name="tel" placeholder="(84) 99999-9999" required>
                     <%}%>
@@ -85,7 +85,7 @@
             <div class="col-md-6">
                 <label for="inputCpf" class="form-label">CPF</label>
                 <% if (resultado.Inscrição) {%>
-                <input type="text" class="form-control" id="inputcpf" name="cpf" placeholder="123.456.789-00" value="">
+                <input type="text" class="form-control" id="inputcpf" name="cpf" placeholder="123.456.789-00" value="<% resultado.Inscrição%>">
                 <%} else   {%>
                     <input type="text" class="form-control" id="inputcpf" name="cpf" placeholder="123.456.789-00" required>
                     <%}%>
@@ -97,7 +97,7 @@
                 <% if (resultado.Inscrição) {%>
                 <div class="input-wrapper">
                     <span class="icon">📅</span>
-                    <input type="date" id="inputdataNascimento" name="dt_nasc" value="">
+                    <input type="date" id="inputdataNascimento" name="dt_nasc" value="<% resultado.Inscrição%>">
                 </div>
                 <%} else   {%>
                     <div class="input-wrapper">
