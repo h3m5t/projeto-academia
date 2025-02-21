@@ -35,11 +35,10 @@ let cmd = 'INSERT INTO tbcliente  (nome_cliente, tel_cliente,dt_nascimento,cpf_c
 
   db.query(cmd,[Nome,Telefone,Nascimento,Cpf],function(erro, resultado) {
     if (erro) {
-        console.error('Erro ao adicionar cliente:', erro);
-        return res.status(500).send('Erro ao adicionar cliente');
+        res.render(erro)
     }
 
-   res.redirect('cliente-lista')
+   res.render('cliente-lista')
 });
 })
 

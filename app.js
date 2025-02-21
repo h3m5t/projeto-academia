@@ -4,8 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+
 var funcionarioRouter = require ('./routes/funcionario');
 var clienteRouter = require ('./routes/cliente');
 var pagamentoRouter = require ('./routes/pagamento');
@@ -25,14 +24,16 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+
+
 app.use('/funcionario',funcionarioRouter);
 app.use('/cliente',clienteRouter);
 app.use('/pagamento',pagamentoRouter);
 app.use('/horarios',horarioRouter);
 app.use('/registros',registrosRouter);
 app.use('/cargo',cargoRouter);
+const moment = require('moment');
+app.locals.moment = moment; // Disponibiliza o moment para os templates EJS
 
 
 
