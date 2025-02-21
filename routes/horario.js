@@ -11,7 +11,7 @@ router.get('/listar', function(req, res) {
       if (erro) {
         return res.send(erro);
       }
-      res.json({resultado:resultados}); 
+      res.json(resultados); 
     });
   });
 
