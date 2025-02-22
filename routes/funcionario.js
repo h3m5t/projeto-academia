@@ -23,7 +23,7 @@ router.get('/listar', function (req, res) {
 
 
 
-/* Rota para add Funcionario --> SHOW*/
+/* Rota para add Funcionario */
 router.get('/add',function(req,res){
    res.render('funcionario-add',{resultado:{}});
 })
@@ -35,14 +35,14 @@ router.post('/add', function(req, res) {
   let nascimento = req.body.nascimento;
   let cargo = req.body.cargo;
 
-  let cmd = 'INSERT INTO tbfuncionario (nome_func, tel_func, cpf_func, dt_nascimento, id_cargo) VALUES ( ?, ?, ?, ?, ?);';
+  let cmd = 'INSERT INTO tbfuncionario (nome_func, tel_func, cpf_func,dt_nascimento , id_cargo) VALUES ( ?, ?, ?, ?, ?);';
 
-  db.query(cmd, [nome, cpf, telefone, nascimento, cargo], function(erro, resultado) {
+  db.query(cmd, [nome, cpf, telefone, nascimento, cargo], function(erro, resultados) {
       if (erro) {
          res.render(erro)
       }
 
-      res.render('funcionario-lista');
+      res.render('funcionario-lista',{resultado: resultados});
   });
 });
 

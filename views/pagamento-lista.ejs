@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Lista de Funcionários</title>
+    <title>Lista de Pagamentos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .rodape {
@@ -32,7 +32,7 @@
         <div class="tab-content">
             <!-- Funcionários -->
             <div class="tab-pane fade show active" id="funcionario">
-                <a href="http://localhost:3000/funcionario/add" class="btn btn-primary" style="margin-bottom: 10px;">Adicionar Funcionário</a>
+                <a href="http://localhost:3000/pagamento/add" class="btn btn-primary" style="margin-bottom: 10px;">Adicionar Pagamento</a>
                 <table class="table table-striped table-bordered">
                     <thead>
                         <tr>
@@ -43,15 +43,15 @@
                     <tbody>
                         <% for (let item of resultado) { %>
                         <tr>
-                            <td><%= item.Nome %></td> <!-- nomear pagamento?? -->
+                            <td><%= item.Pagamento %></td> <!-- nomear pagamento?? -->
                             <td>
                                 <!-- Botão para abrir modal -->
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-<%= item.pagamento %>">Informações</button>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-<%= item.Pagamento %>">Informações</button>
                             </td>
                         </tr>
 
                         <!-- Modal -->
-                        <div class="modal fade" id="modal-<%= item.pagamento %>" tabindex="-1" aria-labelledby="modalLabel-<%= item.pagamento %>" aria-hidden="true">
+                        <div class="modal fade" id="modal-<%= item.Pagamento %>" tabindex="-1" aria-labelledby="modalLabel-<%= item.Pagamento %>" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -60,10 +60,9 @@
                                     </div>
                                     <div class="modal-body">
                                         <ul>
-                                            <li><strong>Matricula do Cliente:</strong> <%= item.Nome %></li>
-                                            <li><strong>Data do pagamento:</strong> <%= item.Aniversario %></li>
-                                            <li><strong>Valor:</strong> <%= item.Matricula %></li>
-                                            <li><strong>Tipo do Plano:</strong><%= item.Matricula %> </li>
+                                            <li><strong>Matricula do Cliente:</strong> <%= item.Inscrição %></li>
+                                            <li><strong>Valor:</strong> <%= item.Valor %></li>
+                                            <li><strong>Tipo do Plano:</strong><%= item.Tipo %> </li>
 
                                         </ul>
                                     </div>

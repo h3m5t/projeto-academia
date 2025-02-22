@@ -66,7 +66,16 @@
                                             <li><strong>Telefone:</strong> <%= cliente.Contato %></li>
                                             <li><strong>Data de Nascimento:</strong> <%= cliente.aniversario %></li>
                                             <li><strong>CPF:</strong> <%= cliente.cpf %></li>
+                                            <li><strong>Matrícula:</strong> <%= cliente.Inscrição %></li>
+                                            <hr>
+                                            <h5>Detalhes do Pagamento</h5>
+                                            
+                                                <li><strong>Valor:</strong> R$ <%= cliente.valor_pagamento ? cliente.valor_pagamento.toFixed(2) : "Não informado" %></li>
+                                                <li><strong>Status:</strong> <%= cliente.status_pagamento ? cliente.status_pagamento : "Desconhecido" %></li>
+                                                <li><strong>Tipo de Pagamento:</strong> <%= cliente.tipo_pagamento ? cliente.tipo_pagamento : "Não especificado" %></li>
+                                        
                                         </ul>
+                                        
                                     </div>
                                 </div>
                             </div>

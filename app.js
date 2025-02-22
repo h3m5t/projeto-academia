@@ -9,7 +9,6 @@ var funcionarioRouter = require ('./routes/funcionario');
 var clienteRouter = require ('./routes/cliente');
 var pagamentoRouter = require ('./routes/pagamento');
 var horarioRouter = require ('./routes/horario');
-var registrosRouter = require ('./routes/registros');
 var cargoRouter = require ('./routes/cargo');
 
 var app = express();
@@ -30,7 +29,6 @@ app.use('/funcionario',funcionarioRouter);
 app.use('/cliente',clienteRouter);
 app.use('/pagamento',pagamentoRouter);
 app.use('/horarios',horarioRouter);
-app.use('/registros',registrosRouter);
 app.use('/cargo',cargoRouter);
 const moment = require('moment');
 app.locals.moment = moment; // Disponibiliza o moment para os templates EJS

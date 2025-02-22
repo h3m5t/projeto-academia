@@ -33,14 +33,50 @@ let Nascimento = req.body.nascimento;
 
 let cmd = 'INSERT INTO tbcliente  (nome_cliente, tel_cliente,dt_nascimento,cpf_cliente) VALUES (?, ?, ?, ?);';
 
-  db.query(cmd,[Nome,Telefone,Nascimento,Cpf],function(erro, resultado) {
+  db.query(cmd,[Nome,Telefone,Nascimento,Cpf],function(erro, resultados) {
     if (erro) {
         res.render(erro)
     }
 
-   res.render('cliente-lista')
+   res.render('cliente-lista',{resultado: resultados})
 });
 })
+
+/*Rota para saber se o cliente ta em dia ou nao */
+
+router.get("/detalhes/:id", async (req, res) => {
+    try {
+        const clienteId = req.params.id;
+        const [cliente] = await db.execute(`
+            SELECT 
+                c.id_cliente, 
+                c.nome_cliente, 
+                c.tel_cliente, 
+                c.cpf_cliente, 
+                c.dt_nascimento, 
+                p.valor_pagamento, 
+                p.status_pagamento, 
+                p.tipo_pagamento 
+            FROM tbcliente c
+            LEFT JOIN tbplanopagamento p ON c.id_cliente = p.id_cliente
+            WHERE c.id_cliente = ?
+            ORDER BY p.id_pagamento DESC LIMIT 1
+        `, [clienteId]);
+
+        if (cliente.length > 0) {
+            res.json({
+                ...cliente[0],
+                status: cliente[0].status_pagamento === "pago" ? "Ativo" : "Inativo"
+            });
+        } else {
+            res.status(404).json({ error: "Cliente não encontrado ou sem pagamentos registrados." });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Erro ao buscar detalhes do cliente." });
+    }
+});
+
 
 
 
