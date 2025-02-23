@@ -22,11 +22,10 @@ router.get('/listar', function (req, res) {
 });
 
 
-
 /* Rota para add Funcionario */
-router.get('/add',function(req,res){
-   res.render('funcionario-add',{resultado:{}});
-})
+router.get('/add', function(req, res) {
+  res.render('funcionario-add', { resultado: {} });
+});
 
 router.post('/add', function(req, res) {
   let nome = req.body.nome;
@@ -35,14 +34,18 @@ router.post('/add', function(req, res) {
   let nascimento = req.body.nascimento;
   let cargo = req.body.cargo;
 
-  let cmd = 'INSERT INTO tbfuncionario (nome_func, tel_func, cpf_func,dt_nascimento , id_cargo) VALUES ( ?, ?, ?, ?, ?);';
+  // Corrigir formato de nascimento
+  let nascimentoFormatado = nascimento ? new Date(nascimento).toISOString().split('T')[0] : null;
 
-  db.query(cmd, [nome, cpf, telefone, nascimento, cargo], function(erro, resultados) {
+  let cmd = 'INSERT INTO tbfuncionario (nome_func, tel_func, cpf_func, dt_nascimento, id_cargo) VALUES (?, ?, ?, ?, ?);';
+
+  db.query(cmd, [nome, telefone, cpf, nascimentoFormatado, cargo], function(erro, resultados) {
       if (erro) {
-         res.render(erro)
+          console.error("Erro ao adicionar funcionário:", erro);
+          return res.status(500).send("Erro ao adicionar funcionário.");
       }
 
-      res.render('funcionario-lista',{resultado: resultados});
+      res.redirect('/funcionario/listar'); // Melhor que renderizar diretamente
   });
 });
 

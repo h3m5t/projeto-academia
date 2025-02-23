@@ -26,19 +26,21 @@ router.get('/add', function(req,res){
 
 router.post('/add', function(req,res){
 let Nome = req.body.nome;
-let Cpf = req.body.cpf;
 let Telefone = req.body.tel;
 let Nascimento = req.body.nascimento;
- 
+let Cpf = req.body.cpf;
+
+  // Corrigir formato de nascimento
+  let nascimentoFormatado = Nascimento ? new Date(nascimento).toISOString().split('T')[0] : null;
 
 let cmd = 'INSERT INTO tbcliente  (nome_cliente, tel_cliente,dt_nascimento,cpf_cliente) VALUES (?, ?, ?, ?);';
 
-  db.query(cmd,[Nome,Telefone,Nascimento,Cpf],function(erro, resultados) {
+  db.query(cmd,[Nome,Telefone,nascimentoFormatado,Cpf],function(erro, listagem) {
     if (erro) {
         res.render(erro)
     }
 
-   res.render('cliente-lista',{resultado: resultados})
+   res.render('cliente-lista',{resultado: listagem})
 });
 })
 
