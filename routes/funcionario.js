@@ -5,11 +5,19 @@ let db = require('../utils/db');
 
 /* Rota listar funcionários --> SHOW*/
 router.get('/listar', function (req, res) {
-  let cmd = `
-      SELECT mat_funcionario AS Matricula, nome_func AS Nome, tel_func AS contato,
-      DATE_FORMAT(dt_nascimento, "%d/%m/%Y") AS Aniversario, cpf_func AS Cpf
-      FROM tbfuncionario;
-  `;
+  let cmd  = `
+  SELECT 
+      f.mat_funcionario AS Matricula, 
+      f.nome_func AS Nome, 
+      f.tel_func AS contato,
+      DATE_FORMAT(f.dt_nascimento, "%d/%m/%Y") AS Aniversario, 
+      f.cpf_func AS Cpf,
+      c.nome_cargo AS Cargo,
+      c.carga_horaria AS CargaH,
+      c.salario_cargo AS Salario
+  FROM tbfuncionario AS f
+  LEFT JOIN tbcargo AS c ON f.id_cargo = c.id_cargo;
+`;
   
   db.query(cmd, [], function (erro, resultados) {
       if (erro) {

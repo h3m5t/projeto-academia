@@ -42,15 +42,14 @@
                     <thead>
                         <tr>
                             <th>Nome</th>
-                            <th>Ações</th>
                         </tr>
                     </thead>
                     <tbody>
                         <% for (let item of resultado) { %>
                             <tr>
                                 <td>
-                                    <%= item.Pagamento %>
-                                </td> <!-- nomear pagamento?? -->
+                                    <%= item.dt_pag %>
+                                </td> 
                                 <td>
                                     <!-- Botão para abrir modal -->
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
@@ -70,7 +69,7 @@
                                         </div>
                                         <div class="modal-body">
                                             <ul>
-                                                <li><strong>Matricula do Cliente:</strong>
+                                                <li><strong>Matricula do Cliente/Nome:</strong>
                                                     <%= item.Inscrição %>
                                                 </li>
                                                 <li><strong>Valor:</strong>
@@ -79,6 +78,13 @@
                                                 <li><strong>Tipo do Plano:</strong>
                                                     <%= item.Tipo %>
                                                 </li>
+                                                <li><strong>Nome do Cliente:</strong>
+                                                    <%= item.Tipo %>
+                                                </li>
+                                                <li><strong>Data do Pagamento:</strong>
+                                                    <%= item.Tipo %>
+                                                </li>
+
 
                                             </ul>
                                         </div>

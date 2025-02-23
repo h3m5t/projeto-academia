@@ -3,11 +3,22 @@ var router = express.Router();
 let db = require('../utils/db');
 
 
-/* Rota para listar Clientes --> add COMO SABER SE O CLIENTE POSSUI OU NAO PLANO DE TREINO????*/ 
+/* Rota para listar Clientes --> */
 router.get('/listar', function(req, res) {
-    let cmd = 'SELECT nome_cliente AS nome, DATE_FORMAT(dt_nascimento,"%Y-%m-%d") AS aniversario, ';
-    cmd += 'cpf_cliente AS cpf, tel_cliente AS Contato, id_cliente AS Inscrição ';
-    cmd += 'FROM tbcliente;';
+    let cmd = `
+    SELECT 
+        c.nome_cliente AS nome, 
+        DATE_FORMAT(c.dt_nascimento, "%Y-%m-%d") AS aniversario, 
+        c.cpf_cliente AS cpf, 
+        c.tel_cliente AS Contato, 
+        c.id_cliente AS Inscrição,
+        CASE 
+            WHEN p.id_cliente IS NOT NULL THEN 'Possui treino cadastrado'
+            ELSE 'Não possui treino cadastrado'
+        END AS status_treino
+    FROM tbcliente AS c
+    LEFT JOIN tbplanotreino AS p ON c.id_cliente = p.id_cliente;
+`;
 
     db.query(cmd, [], function(erro, listagem) {
         if (erro) {
@@ -110,3 +121,11 @@ router.delete('/apagar/:mat', function(req,res){
 
 
 module.exports = router;
+
+
+
+/* Consulta para ver interseção entre tbplano e tbcliente
+
+ select nome_cliente as Cliente from tbcliente as c inner join tbplanotreino as p ON c.id_cliente = p.id_cliente;
+
+*/ 
