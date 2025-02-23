@@ -21,7 +21,6 @@ router.get('/listar', function (req, res) {
   });
 });
 
-
 /* Rota para add Funcionario */
 router.get('/add', function(req, res) {
   res.render('funcionario-add', { resultado: {} });
@@ -34,7 +33,7 @@ router.post('/add', function(req, res) {
   let nascimento = req.body.nascimento;
   let cargo = req.body.cargo;
 
-  // Corrigir formato de nascimento
+  /*Corrigir formato de nascimento */
   let nascimentoFormatado = nascimento ? new Date(nascimento).toISOString().split('T')[0] : null;
 
   let cmd = 'INSERT INTO tbfuncionario (nome_func, tel_func, cpf_func, dt_nascimento, id_cargo) VALUES (?, ?, ?, ?, ?);';
@@ -44,21 +43,21 @@ router.post('/add', function(req, res) {
           console.error("Erro ao adicionar funcionário:", erro);
           return res.status(500).send("Erro ao adicionar funcionário.");
       }
-
-      res.redirect('/funcionario/listar'); // Melhor que renderizar diretamente
+      res.redirect('/funcionario/listar');
   });
 });
 
-
 /* Rota para excluir Funcionario */
-router.delete('/apagar/:mat', function(req,res){
-  let mat = req.params.mat; 
+router.delete('/apagar/:mat', function(req, res) {
+  let mat = req.params.mat;
   let cmd = "DELETE FROM tbfuncionario WHERE mat_funcionario = ?;";
-  db.query(cmd, [mat], function(erro,listagem){
-    if(erro){
-      res.send(erro);
+
+  db.query(cmd, [mat], function(erro, resultado) {
+    if (erro) {
+      console.error("Erro ao apagar funcionário:", erro.sqlMessage);
+      return res.status(500).json({ erro: "Erro ao apagar funcionário." });
     }
-    res.redirect(303, '/funcionario/listar')
+    res.status(200).json({ mensagem: "Funcionário apagado com sucesso!" });
   });
 });
 
@@ -68,7 +67,7 @@ router.get('/editar/:mat',function(req,res){
   let mat = req.params.mat; 
 
   let cmd = 'SELECT mat_funcionario AS Matricula, nome_func AS Nome, tel_func AS contato,'
-  cmd +=     'DATE_FORMAT(dt_nascimento,"%d/%m/%Y") AS Aniversario, cpf_func AS Cpf '
+  cmd +=     'DATE_FORMAT(dt_nascimento,"%Y-%m-%d") AS Aniversario, cpf_func AS Cpf '
   cmd +=     'FROM tbfuncionario WHERE mat_funcionario = ?;'
   db.query(cmd, [mat], function(erro, listagem){
     if(erro){
@@ -84,14 +83,9 @@ router.put('/editar/:mat', function(req, res) {
   let cpf = req.body.cpf;
   let telefone = req.body.telefone;
   let cargo = req.body.id_cargo;
-  let nascimento = req.body.nascimento; // Espera "YYYY-MM-DD", mas pode vir "DD/MM/YYYY"
+  let nascimento = req.body.nascimento; 
 
-// Converter se estiver no formato "DD/MM/YYYY"
-if (nascimento.includes('/')) {
-    let partes = nascimento.split('/');
-    nascimento = `${partes[2]}-${partes[1]}-${partes[0]}`; // Convertendo para "YYYY-MM-DD"
-}
-  
+
   let cmd = 'UPDATE tbfuncionario SET nome_func = ?, tel_func = ?, cpf_func = ?, dt_nascimento = ?, id_cargo= ? WHERE mat_funcionario = ? ;';
 
   db.query(cmd, [nome, telefone, cpf, nascimento, cargo, mat], function(erro, resultado) {
@@ -106,5 +100,4 @@ if (nascimento.includes('/')) {
 
 module.exports = router;
 
-/* */ 
 

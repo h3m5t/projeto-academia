@@ -5,9 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Lista de Funcionários</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <!-- Estilização da página -->
     <style>
         .rodape {
             text-align: center;
@@ -18,8 +20,8 @@
             padding: 10px 0;
         }
     </style>
+    <!-- Script que contem a function para excluir funcionarios -->
     <script>
-
         function exclui(Matricula) {
             const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
@@ -39,14 +41,13 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                url: "/funcionario/apagar/" + Matricula,
-                type: "DELETE",
-                sucess: function (res){
-                    $(location).attr('href', '/funcionario/listar');
-                },
-            });
+                        url: "/funcionario/apagar/" + Matricula,
+                        type: "DELETE",
+                        sucess: function (res) {
+                            $(location).attr('href', '/funcionario/listar');
+                        },
+                    });
                 } else if (
-                    /* Read more about handling dismissals below */
                     result.dismiss === Swal.DismissReason.cancel
                 ) {
                     swalWithBootstrapButtons.fire({
@@ -84,7 +85,7 @@
                     <thead>
                         <tr>
                             <th>Nome</th>
-                            <th>Ações</th>
+                            <th>Funções</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -96,7 +97,10 @@
                                 <td>
                                     <a href="/funcionario/editar/<%=item.Matricula%>"
                                         class="btn btn-outline-secondary">Editar</a>
-                                    <button type="button" class="btn btn-danger" onclick="exclui()">Excluir</button>
+                                    <button type="button" class="btn btn-danger"
+                                        onclick="exclui('<%=item.Matricula%>');">
+                                        Excluir
+                                    </button>
                                     <!-- Botão para abrir modal -->
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                         data-bs-target="#modal-<%= item.Matricula %>">Sobre</button>
@@ -141,6 +145,7 @@
             </div>
         </div>
     </div>
+    <!-- Rodape presente em todas as páginas -->
     <footer class="rodape"><b>&copy; Todos Direitos Reservados TitaniumFit</b></footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

@@ -7,9 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 
-    
+       <!-- Script para qnd for add, apareça os cargos disponíveis, script para alterar tbm -->
     <script>
         $(document).ready(function () {
             function getCargo() { 
@@ -59,7 +58,7 @@
             }
         });
     </script>
-
+   <!-- Estilização da página-->
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -106,6 +105,7 @@
     }
 
 </style>
+
 </head>
 
 <body>
@@ -156,9 +156,6 @@
             </div>
             
 
-
-
-
             <div class="col-md-6">
                 <label for="inputCargo" class="form-label">Cargo</label>
                 <select id="inputCargo" class="form-select" name="cargo" required>
@@ -167,35 +164,28 @@
             </div> 
 
 
-
-
             <div class="input-container">
                 <label for="inputDataNascimento">Data de Nascimento</label>
-                <% if (resultado.Matricula) {%>
-                <div class="input-wrapper">
-                    <span class="icon">📅</span>
-                    <input type="date" id="inputDataNascimento" name="nascimento"  value="<%= moment(resultado.Aniversario).format('YYYY-MM-DD') %>
-                    " >
-                </div>
-
-                    <%} else   {%>
-                        <div class="input-wrapper">
-                            <span class="icon">📅</span>
-                            <input type="date" id="inputDataNascimento" name="nascimento" required>
-                        </div>
-                        <%}%>
-               
+                <% if (resultado.Matricula) { %>
+                    <div class="input-wrapper">
+                        <span class="icon">📅</span>
+                        <input type="date" id="inputDataNascimento" name="nascimento" value="<%= resultado.Aniversario %>">
+                    </div>
+                    
+                <% } else { %>
+                    <div class="input-wrapper">
+                        <span class="icon">📅</span>
+                        <input type="date" id="inputDataNascimento" name="nascimento" required>
+                    </div>
+                <% } %>
             </div>
-
             <div class="col-12">
                 <button type="submit" class="btn btn-primary">Cadastrar</button>
             </div>
         </form>
     </div>
-
-    <!-- Bootstrap -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-
 </body>
 
-</html>
+
+    <!-- Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/

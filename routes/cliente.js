@@ -5,7 +5,7 @@ let db = require('../utils/db');
 
 /* Rota para listar Clientes --> add COMO SABER SE O CLIENTE POSSUI OU NAO PLANO DE TREINO????*/ 
 router.get('/listar', function(req, res) {
-    let cmd = 'SELECT nome_cliente AS nome, DATE_FORMAT(dt_nascimento,"%d/%m/%Y") AS aniversario, ';
+    let cmd = 'SELECT nome_cliente AS nome, DATE_FORMAT(dt_nascimento,"%Y-%m-%d") AS aniversario, ';
     cmd += 'cpf_cliente AS cpf, tel_cliente AS Contato, id_cliente AS Inscrição ';
     cmd += 'FROM tbcliente;';
 
@@ -18,34 +18,32 @@ router.get('/listar', function(req, res) {
     });
 });
 
-
 /* Rota para add Clientes */
-router.get('/add', function(req,res){
-    res.render('cliente-add')
-})
-
-router.post('/add', function(req,res){
-let Nome = req.body.nome;
-let Telefone = req.body.tel;
-let Nascimento = req.body.nascimento;
-let Cpf = req.body.cpf;
-
-  // Corrigir formato de nascimento
-  let nascimentoFormatado = Nascimento ? new Date(nascimento).toISOString().split('T')[0] : null;
-
-let cmd = 'INSERT INTO tbcliente  (nome_cliente, tel_cliente,dt_nascimento,cpf_cliente) VALUES (?, ?, ?, ?);';
-
-  db.query(cmd,[Nome,Telefone,nascimentoFormatado,Cpf],function(erro, listagem) {
-    if (erro) {
-        res.render(erro)
-    }
-
-   res.render('cliente-lista',{resultado: listagem})
-});
-})
-
+router.get('/add', function(req, res) {
+    res.render('cliente-add', { resultado: {} });
+  });
+  
+  router.post('/add', function(req, res) {
+    let nome = req.body.nome;
+    let telefone = req.body.tel;
+    let nascimento = req.body.nascimento;
+    let cpf = req.body.cpf;
+  
+    /* Corrigir formato da data de nascimento */
+    let nascimentoFormatado = nascimento ? new Date(nascimento).toISOString().split('T')[0] : null;
+  
+    let cmd = 'INSERT INTO tbcliente (nome_cliente, tel_cliente, dt_nascimento, cpf_cliente) VALUES (?, ?, ?, ?);';
+  
+    db.query(cmd, [nome, telefone, nascimentoFormatado, cpf], function(erro, resultados) {
+        if (erro) {
+            console.error("Erro ao adicionar cliente:", erro);
+            return res.status(500).send("Erro ao adicionar cliente.");
+        }
+        res.redirect('/cliente/listar');
+    });
+  });
+  
 /*Rota para saber se o cliente ta em dia ou nao */
-
 router.get("/detalhes/:id", async (req, res) => {
     try {
         const clienteId = req.params.id;
@@ -79,15 +77,36 @@ router.get("/detalhes/:id", async (req, res) => {
     }
 });
 
-
-
-
 /* Rota para editar Clientes */
+router.get('/editar/:id', function(req,res){
+    let id = req.params.id; 
 
+    let cmd = 'SELECT id_cliente AS Inscrição, nome_cliente AS Nome, tel_cliente AS contato,'
+    cmd +=     'DATE_FORMAT(dt_nascimento,"%Y-%m-%d") AS Aniversario, cpf_cliente AS Cpf '
+    cmd +=     'FROM tbcliente WHERE id_cliente = ?;'
+    db.query(cmd, [id], function(erro, listagem){
+      if(erro){
+        res.send(erro);
+      }
+      res.render('cliente-add', {resultado: listagem[0]});
+    });
+}); 
+
+router.put('/editar/:id', function(req,res){
+    
+})
 
 /* Rota para excluir Clientes */
-
+router.delete('/apagar/:mat', function(req,res){
+    let mat = req.params.mat;
+    let cmd = "DELETE FROM tbcliente WHERE id_cliente = ?;";
+    db.query(cmd,[mat],function(erro,listagem){
+        if(erro){
+            res.send(erro);
+        }
+        res.redirect(303,'/cliente/listar');
+    });
+});
 
 
 module.exports = router;
-
