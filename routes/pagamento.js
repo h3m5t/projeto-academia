@@ -18,8 +18,24 @@ router.get('/listar',function(req,res){
 
 
 /* aqui será destinado para realizar os pagamentos dos clientes */
+router.get('/add',function(req,res){
+  res.render('pagamento-lista', { resultado: {} });
+})
+
+router.post('/add', function(req,res){
+let data = req.body.data
+let valor = req.body.valor
+let cliente = req.body.cliente
+let plano = req.body.plano
+
+let dataFormatada = data ? new Date(data).toISOString().split('T')[0] : null;
+
+let cmd = 'INSERT INTO tbregsitropagamento (nome_func, tel_func, cpf_func, dt_nascimento, id_cargo) VALUES (?, ?, ?, ?, ?);';
 
 
+
+
+})
 
 
 

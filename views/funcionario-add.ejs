@@ -34,6 +34,7 @@
                 $.ajax({
                     success: function (res) {
                         let cargo = $("#id_cargo").val();
+                        console.log(cargo);
                         $("#inputCargo option").each(function () {
                             if ($(this).val() == cargo) {
                                 $("#inputCargo option[value='" + cargo + "']").attr('selected', 'selected');
@@ -45,18 +46,25 @@
 
             getCargo();
             setCargo();
+        });
 
-            function altera(Matricula){
+
+        function altera(Matricula){
             $.ajax({
                 url: "/funcionario/editar/" + Matricula,
                 type: "PUT",
-                data: "nome+" + $("#inputFuncionario").val() + "&cargo" + $("#inputCargo").val(),
-                sucess: function (res){
+                data: "nome=" + $("#inputNome").val() + "&cargo=" + $("#inputCargo").val() +
+                 "&contato=" + $("#inputTelefone").val() + "&cpf=" + $("#inputCpf").val() + 
+                 "&nascimento=" + $("#inputDataNascimento").val(),
+                success: function (res){
                     $(location).attr('href', '/funcionario/listar');
                 },
             });
             }
-        });
+
+
+
+
     </script>
    <!-- Estilização da página-->
 <style>
@@ -178,9 +186,17 @@
                         <input type="date" id="inputDataNascimento" name="nascimento" required>
                     </div>
                 <% } %>
+
+
+
+
             </div>
             <div class="col-12">
-                <button type="submit" class="btn btn-primary">Cadastrar</button>
+                <% if (resultado.Matricula) { %>
+                    <button type="button" onclick="altera(<%= resultado.Matricula %>)" class="btn btn-primary">Salvar</button>
+                    <% } else { %>
+                <button type="submit" class="btn btn-primary">Salvar</button>
+                <% } %>
             </div>
         </form>
     </div>

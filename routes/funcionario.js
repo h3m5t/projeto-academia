@@ -74,9 +74,10 @@ router.delete('/apagar/:mat', function(req, res) {
 router.get('/editar/:mat',function(req,res){
   let mat = req.params.mat; 
 
-  let cmd = 'SELECT mat_funcionario AS Matricula, nome_func AS Nome, tel_func AS contato,'
-  cmd +=     'DATE_FORMAT(dt_nascimento,"%Y-%m-%d") AS Aniversario, cpf_func AS Cpf '
-  cmd +=     'FROM tbfuncionario WHERE mat_funcionario = ?;'
+  let cmd = 'SELECT mat_funcionario AS Matricula, nome_func AS Nome, tel_func AS contato, ';
+  cmd += 'DATE_FORMAT(dt_nascimento,"%Y-%m-%d") AS Aniversario, cpf_func AS Cpf, id_cargo ';
+  cmd += 'FROM tbfuncionario WHERE mat_funcionario = ?;';
+  
   db.query(cmd, [mat], function(erro, listagem){
     if(erro){
       res.send(erro);
@@ -90,7 +91,7 @@ router.put('/editar/:mat', function(req, res) {
   let nome = req.body.nome;
   let cpf = req.body.cpf;
   let telefone = req.body.telefone;
-  let cargo = req.body.id_cargo;
+  let cargo = req.body.cargo;
   let nascimento = req.body.nascimento; 
 
 
@@ -102,6 +103,7 @@ router.put('/editar/:mat', function(req, res) {
       }
 
       res.redirect(303, '/funcionario/listar');
+    
     
   });
 });
