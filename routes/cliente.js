@@ -8,7 +8,7 @@ router.get('/listar', function(req, res) {
     let cmd = `
     SELECT 
         c.nome_cliente AS nome, 
-        DATE_FORMAT(c.dt_nascimento, "%Y-%m-%d") AS aniversario, 
+        DATE_FORMAT(c.dt_nascimento, "%d/%m/%Y") AS aniversario, 
         c.cpf_cliente AS cpf, 
         c.tel_cliente AS Contato, 
         c.id_cliente AS Inscrição,
@@ -28,6 +28,9 @@ router.get('/listar', function(req, res) {
         res.render('cliente-lista',{ resultado: listagem });
     });
 });
+
+
+
 
 /* Rota para add Clientes */
 router.get('/add', function(req, res) {
@@ -54,6 +57,9 @@ router.get('/add', function(req, res) {
     });
   });
   
+
+
+
 /*Rota para saber se o cliente ta em dia ou nao */
 router.get("/detalhes/:id", async (req, res) => {
     try {
@@ -88,6 +94,10 @@ router.get("/detalhes/:id", async (req, res) => {
     }
 });
 
+
+
+
+
 /* Rota para editar Clientes */
 router.get('/editar/:id', function(req,res){
     let id = req.params.id; 
@@ -103,9 +113,37 @@ router.get('/editar/:id', function(req,res){
     });
 }); 
 
-router.put('/editar/:id', function(req,res){
-    
-})
+
+
+router.put('/editar/:id', function(req, res) {
+    let id = req.params.id
+    let nome = req.body.nome;
+    let cpf = req.body.cpf;
+    let telefone = req.body.telefone;
+    let nascimento = req.body.nascimento; 
+  
+  
+    let cmd = 'UPDATE tbcliente SET nome_cliente = ?, tel_cliente = ?, cpf_cliente = ?, dt_nascimento = ? WHERE id_cliente = ? ;';
+  
+    db.query(cmd, [nome, telefone, cpf, nascimento, id], function(erro, resultado) {
+        if (erro) {
+            return res.status(500).send('Erro ao modificar o cliente');
+        }
+  
+        res.redirect(303, '/funcionario/listar');
+      
+      
+    });
+  });
+
+
+
+
+
+
+
+
+
 
 /* Rota para excluir Clientes */
 router.delete('/apagar/:mat', function(req,res){
@@ -115,7 +153,7 @@ router.delete('/apagar/:mat', function(req,res){
         if(erro){
             res.send(erro);
         }
-        res.redirect(303,'/cliente/listar');
+        res.redirect(303, '/cliente/listar');
     });
 });
 

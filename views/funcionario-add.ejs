@@ -54,18 +54,15 @@
                 url: "/funcionario/editar/" + Matricula,
                 type: "PUT",
                 data: "nome=" + $("#inputNome").val() + "&cargo=" + $("#inputCargo").val() +
-                 "&contato=" + $("#inputTelefone").val() + "&cpf=" + $("#inputCpf").val() + 
+                 "&telefone=" + $("#inputTelefone").val() + "&cpf=" + $("#inputCpf").val() + 
                  "&nascimento=" + $("#inputDataNascimento").val(),
                 success: function (res){
                     $(location).attr('href', '/funcionario/listar');
                 },
             });
             }
-
-
-
-
     </script>
+    
    <!-- Estilização da página-->
 <style>
     body {
@@ -193,7 +190,7 @@
             </div>
             <div class="col-12">
                 <% if (resultado.Matricula) { %>
-                    <button type="button" onclick="altera(<%= resultado.Matricula %>)" class="btn btn-primary">Salvar</button>
+                    <button type="button" onclick="altera('<%= resultado.Matricula %>')" class="btn btn-primary">Salvar</button>
                     <% } else { %>
                 <button type="submit" class="btn btn-primary">Salvar</button>
                 <% } %>
