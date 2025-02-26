@@ -30,12 +30,10 @@ ON r.id_pagamento = p.id_pagamento;`;
 });
 
 
-
 /* aqui será destinado para realizar os pagamentos dos clientes */
 router.get('/add', function(req, res) {
   res.render('pagamento-add', { resultado: [] }); 
 });
-
 
 router.post('/add', function(req, res) {
   let data = req.body.data;
@@ -71,15 +69,10 @@ router.post('/add', function(req, res) {
             if(erro3){
               return res.status(500).send('erro ao buscar nome de cliente')
             }
-            res.redirect('/pagamento/listar')
-          })
           res.redirect('/pagamento/listar');
       });
   });
 });
-
-
-
-
+});
 
 module.exports = router;
