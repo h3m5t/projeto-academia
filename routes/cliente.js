@@ -142,9 +142,6 @@ router.put('/editar/:id', function(req, res) {
 
 
 
-
-
-
 /* Rota para excluir Clientes */
 router.delete('/apagar/:mat', function(req,res){
     let mat = req.params.mat;
