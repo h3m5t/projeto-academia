@@ -58,53 +58,8 @@ router.post('/add', function (req, res) {
 
 
 
-/*Rota para saber se o cliente ta em dia ou nao */
 
-router.get('/detalhes/:id', function (req, res) {
-    let clienteId = req.params.id;  // Obtém o ID do cliente da URL
 
-    // Consulta para obter os dados do cliente
-    let cmdCliente = `
-      SELECT 
-        c.id_cliente, 
-        c.nome_cliente
-      FROM tbcliente c
-      WHERE c.id_cliente = ?;
-    `;
-    
-    // Consulta para obter os pagamentos do cliente
-    let cmdPagamentos = `
-      SELECT 
-        p.valor_pagamento, 
-        p.status_pagamento, 
-        p.tipo_pagamento, 
-        DATE_FORMAT(rp.dt_pagamento, '%d/%m/%Y') AS dt_pagamento_formatado
-      FROM tbplanopagamento p
-      LEFT JOIN tbregistropagamento rp ON p.id_cliente = rp.id_cliente
-      WHERE p.id_cliente = ?
-      ORDER BY rp.dt_pagamento DESC;
-    `;
-    
-    // Obter dados do cliente
-    db.query(cmdCliente, [clienteId], function (erro, resultadosCliente) {
-        if (erro) {
-            return res.render('erro', { mensagem: "Erro ao buscar os dados do cliente." });
-        }
-        
-        // Obter pagamentos do cliente
-        db.query(cmdPagamentos, [clienteId], function (erro, resultadosPagamentos) {
-            if (erro) {
-                return res.render('erro', { mensagem: "Erro ao buscar os pagamentos do cliente." });
-            }
-            
-            // Renderizar a página com os resultados
-            res.render('cliente-pagamento', { 
-                cliente: resultadosCliente[0], 
-                pagamentos: resultadosPagamentos 
-            });
-        });
-    });
-});
 
 
 

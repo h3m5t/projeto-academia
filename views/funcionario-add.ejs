@@ -8,7 +8,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 
-       <!-- Script para qnd for add, apareça os cargos disponíveis, script para alterar tbm -->
     <script>
         $(document).ready(function () {
             function getCargo() { 
@@ -48,7 +47,6 @@
             setCargo();
         });
 
-
         function altera(Matricula){
             $.ajax({
                 url: "/funcionario/editar/" + Matricula,
@@ -60,56 +58,71 @@
                     $(location).attr('href', '/funcionario/listar');
                 },
             });
-            }
+        }
     </script>
-    
-   <!-- Estilização da página-->
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        background-color: #f5f5f5;
-    }
 
-    .input-container {
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-    }
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+        }
 
-    label {
-        font-size: 16px;
-        font-weight: bold;
-    }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
 
-    .input-wrapper {
-        position: relative;
-        display: flex;
-        align-items: center;
-    }
+        .input-container {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
 
-    input[type="date"] {
-        width: 200px;
-        padding: 10px;
-        padding-left: 35px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        font-size: 16px;
-        background-color: white;
-        appearance: none;
-    }
+        label {
+            font-size: 16px;
+            font-weight: bold;
+        }
 
-    .icon {
-        position: absolute;
-        left: 10px;
-        pointer-events: none;
-        font-size: 18px;
-        color: #007bff;
-    }
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
 
-</style>
+        input[type="date"], input[type="text"], select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: white;
+        }
+
+        .icon {
+            position: absolute;
+            left: 10px;
+            pointer-events: none;
+            font-size: 18px;
+            color: #007bff;
+        }
+
+        .btn-voltar {
+            margin-left: 10px;
+        }
+
+        .alert {
+            margin-bottom: 20px;
+        }
+
+    </style>
 
 </head>
 
@@ -124,84 +137,67 @@
             <div id="mensagem" class="alert d-none"></div>
             <form method="POST" action="/funcionario/add" id="cadastroForm" class="row g-3">
         <% } %>
-        
-
-
 
             <div class="col-md-6">
                 <label for="inputNome" class="form-label">Nome</label>
                 <% if (resultado.Matricula) {%>
                     <input type="text" class="form-control" id="inputNome" name="nome" placeholder="Digite o nome do funcionario" value="<%= resultado.Nome%>">
-                    <%} else {%>
-                        <input type="text" class="form-control" id="inputNome" name="nome" placeholder="Digite o nome do funcionario" required>
-                        <%}%>
+                <%} else {%>
+                    <input type="text" class="form-control" id="inputNome" name="nome" placeholder="Digite o nome do funcionario" required>
+                <%}%>
             </div>
 
-
-
-           
             <div class="col-md-6">
                 <label for="inputTelefone" class="form-label">Telefone</label>
                 <% if (resultado.Matricula) {%>
-                <input type="text" class="form-control" id="inputTelefone" name="telefone" placeholder="(84) 99999-9999"  value="<%= resultado.contato%>" >
+                    <input type="text" class="form-control" id="inputTelefone" name="telefone" placeholder="(84) 99999-9999"  value="<%= resultado.contato%>" >
                 <%} else   {%>
-                <input type="text" class="form-control" id="inputTelefone" name="telefone" placeholder="(84) 99999-9999" required>
-                    <%}%>
+                    <input type="text" class="form-control" id="inputTelefone" name="telefone" placeholder="(84) 99999-9999" required>
+                <%}%>
             </div>
-
-
 
             <div class="col-md-6">
                 <label for="inputCpf" class="form-label">CPF</label>
                 <% if (resultado.Matricula) {%>
-                <input type="text" class="form-control" id="inputCpf" name="cpf" placeholder="123.456.789-00"  value="<%= resultado.Cpf%>" >
+                    <input type="text" class="form-control" id="inputCpf" name="cpf" placeholder="123.456.789-00"  value="<%= resultado.Cpf%>" >
                 <%} else   {%>
-                <input type="text" class="form-control" id="inputCpf" name="cpf" placeholder="123.456.789-00" required>
-                    <%}%>
+                    <input type="text" class="form-control" id="inputCpf" name="cpf" placeholder="123.456.789-00" required>
+                <%}%>
             </div>
-            
 
             <div class="col-md-6">
                 <label for="inputCargo" class="form-label">Cargo</label>
                 <select id="inputCargo" class="form-select" name="cargo" required>
                     <option selected>Selecione um cargo</option>
                 </select>
-            </div> 
-
+            </div>
 
             <div class="input-container">
                 <label for="inputDataNascimento">Data de Nascimento</label>
                 <% if (resultado.Matricula) { %>
                     <div class="input-wrapper">
-                        <span class="icon">📅</span>
+                       
                         <input type="date" id="inputDataNascimento" name="nascimento" value="<%= resultado.Aniversario %>">
                     </div>
-                    
                 <% } else { %>
                     <div class="input-wrapper">
-                        <span class="icon">📅</span>
+                        
                         <input type="date" id="inputDataNascimento" name="nascimento" required>
                     </div>
                 <% } %>
-
-
-
-
             </div>
+
             <div class="col-12">
                 <% if (resultado.Matricula) { %>
                     <button type="button" onclick="altera('<%= resultado.Matricula %>')" class="btn btn-primary">Salvar</button>
-                    <% } else { %>
-                <button type="submit" class="btn btn-primary">Salvar</button>
+                <% } else { %>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
                 <% } %>
-                
                 <a href="/funcionario/listar" class="btn btn-danger btn-voltar">Voltar</a>
-
             </div>
         </form>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
-
-    <!-- Bootstrap -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/
+</html>

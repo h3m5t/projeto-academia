@@ -7,6 +7,11 @@
     <title>Lista de Horários</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        body {
+            background-color: #f4f7fa;
+            font-family: 'Arial', sans-serif;
+        }
+
         .rodape {
             text-align: center;
             position: fixed;
@@ -14,80 +19,149 @@
             bottom: 0;
             background-color: #f8f9fa;
             padding: 10px 0;
+            font-size: 14px;
         }
 
-        .table th,
-        .table td {
-            text-align: center;
-            vertical-align: middle;
+        h1 {
+            font-size: 36px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 40px;
         }
+
+        table {
+            width: 100%;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+        }
+
+        th, td {
+            padding: 20px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        /* Cabeçalho da tabela com azul */
+        th {
+            background-color: #007bff; /* Azul forte */
+            color: rgb(0, 0, 0);
+            font-weight: bold;
+            text-transform: uppercase;
+            border-bottom: 2px solid #0056b3; /* Azul mais escuro */
+        }
+
+        /* Linhas da tabela sem efeitos de hover */
+        tr:nth-child(even) {
+            background-color: #ffffff; /* Branco */
+        }
+
+        tr:nth-child(odd) {
+            background-color: #ffffff; /* Branco */
+        }
+
+        td {
+            color: #555;
+        }
+
+        td a {
+            color: #007bff; /* Cor azul para links */
+            text-decoration: none;
+        }
+
+        td a:hover {
+            text-decoration: underline;
+        }
+
+        .btn-primary {
+            background-color: #ffffff;
+            color: #333;
+            border-color: #ddd;
+            padding: 12px 25px;
+            font-size: 18px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+
+        /* Modificando a cor do botão ao ser clicado */
+        .accordion-button {
+            background-color: white !important;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+
+        .accordion-button:focus {
+            box-shadow: none;
+        }
+
+        .accordion-button:not(.collapsed) {
+            background-color: #f1f1f1 !important;
+            color: #000;
+            border-color: #ddd;
+        }
+
     </style>
 </head>
 
 <body>
     <div class="container py-4">
         <h1 class="text-center">Setor Administrativo - Titanium</h1>
-        <br>
 
         <!-- Abas de Navegação -->
         <ul class="nav nav-tabs mb-4">
             <li class="nav-item"><a class="nav-link" href="http://localhost:3000/cliente/listar">Clientes</a></li>
-            <li class="nav-item"><a class="nav-link" href="http://localhost:3000/funcionario/listar">Funcionários</a>
-            </li>
+            <li class="nav-item"><a class="nav-link" href="http://localhost:3000/funcionario/listar">Funcionários</a></li>
             <li class="nav-item"><a class="nav-link" href="http://localhost:3000/pagamento/listar">Pagamentos</a></li>
-            <li class="nav-item"><a class="nav-link active" href="http://localhost:3000/horarios/listar">Horários</a>
-            </li>
+            <li class="nav-item"><a class="nav-link active" href="http://localhost:3000/horarios/listar">Horários</a></li>
         </ul>
 
         <div class="tab-content">
-            <div class="tab-pane fade show active" id="funcionario">
-                <!-- Horários -->
-                <div class="table-responsive">
-                    <table class="table table-striped table-bordered table-hover">
-                        <thead class="table-primary">
-                            <tr>
-                                <th>Horário</th>
-                                <th>Segunda-Feira</th>
-                                <th>Terça-Feira</th>
-                                <th>Quarta-Feira</th>
-                                <th>Quinta-Feira</th>
-                                <th>Sexta-Feira</th>
-                                <th>Sábado</th>
-                                <th>Domingo</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% let horariosFixos = ["05h às 08h", "08h às 11h", "11h às 14h", "14h às 17h", "17h às 20h"]; %>
-                            <% for (let hora of horariosFixos) { %>
-                                <tr>
-                                    <td><%= hora %></td>
-                                    <% for (let dia of ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo']) { %>
-                                        <td>
-                                            <% if (dia === 'Domingo') { %>
-                                                <strong>Fechado</strong>
-                                            <% } else { 
-                                                let funcionario = resultado.find(item => item.hora === hora && item.dia === dia);
-                                                if (funcionario) { %>
-                                                    <%= funcionario.nomeFuncionario %>
-                                                <% } else { %>
-                                                    -
-                                                <% } %>
-                                            <% } %>
-                                        </td>
-                                    <% } %>
-                                </tr>
-                            <% } %>
-                        </tbody>
-                        
-                        <a href="http://localhost:3000/horarios/add" class="btn btn-primary mb-3">Adicionar Horário</a>
-                        
-                    </table>
+            <div class="tab-pane fade show active" id="horarios">
+                <!-- Tabela de Horários -->
+            
+                <div class="accordion" id="accordionExample">
+                    <% for (const nome in horariosAgrupados) { %>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading-<%= nome %>">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-<%= nome %>" aria-expanded="true" aria-controls="collapse-<%= nome %>">
+                                    <%= nome %>
+                                </button>
+                            </h2>
+                            <div id="collapse-<%= nome %>" class="accordion-collapse collapse" aria-labelledby="heading-<%= nome %>" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th><strong>Início - Fim</strong></th>
+                                                <th><strong>Dia da Semana</strong></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% horariosAgrupados[nome].forEach(function(horario) { %>
+                                                <tr>
+                                                    <td><%= horario.horario_inicio %> às <%= horario.horario_fim %></td>
+                                                    <td><%= horario.dia_semana %></td>
+                                                </tr>
+                                            <% }); %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    <% } %>
                 </div>
+                
+                <a href="http://localhost:3000/horarios/add" class="btn btn-primary">Adicionar Horário</a>
             </div>
         </div>
     </div>
 
-    <footer class="rodape"><b>&copy; Todos Direitos Reservados TitaniumFit</b></footer>
+    <footer class="rodape">
+        <b>&copy; Todos Direitos Reservados TitaniumFit</b>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>

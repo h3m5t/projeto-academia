@@ -19,6 +19,13 @@
         background-color: #f5f5f5;
     }
 
+    .container {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
     .input-container {
         display: flex;
         flex-direction: column;
@@ -37,14 +44,12 @@
     }
 
     input[type="date"] {
-        width: 200px;
+        width: 100%;
         padding: 10px;
-        padding-left: 35px;
         border: 1px solid #ccc;
         border-radius: 5px;
         font-size: 16px;
         background-color: white;
-        appearance: none;
     }
 
     .icon {
@@ -54,29 +59,23 @@
         font-size: 18px;
         color: #007bff;
     }
-
 </style>
 
 <script>
-   
-
-    function altera(Inscrição){
+    function altera(Inscrição) {
         $.ajax({
             url: "/cliente/editar/" + Inscrição,
             type: "PUT",
             data: "nome=" + $("#inputNome").val() +
-             "&telefone=" + $("#inputTelefone").val() + "&cpf=" + $("#inputCpf").val() + 
-             "&nascimento=" + $("#inputDataNascimento").val(),
-            success: function (res){
+                "&telefone=" + $("#inputTelefone").val() + "&cpf=" + $("#inputCpf").val() +
+                "&nascimento=" + $("#inputDataNascimento").val(),
+            success: function (res) {
                 $(location).attr('href', '/cliente/listar');
             },
         });
-        }
+    }
 </script>
-
 </head>
-
-
 
 <body>
     <div class="container mt-5">
@@ -87,19 +86,14 @@
         <h1 class="mb-4">Cadastro de Clientes</h1>
         <form method="POST" action="/cliente/add" id="cadastroForm" class="row g-3">
             <% } %>
-
-
             <div class="col-md-6">
                 <label for="inputNome" class="form-label">Nome</label>
                 <% if (resultado.Inscrição) { %>
                 <input type="text" class="form-control" id="inputNome" name="nome" placeholder="Digite o nome do cliente" value="<%= resultado.Nome%>">
                 <%} else {%>
-                    <input type="text" class="form-control" id="inputNome" name="nome" placeholder="Digite o nome do cliente" required>
-                    <% } %>
+                <input type="text" class="form-control" id="inputNome" name="nome" placeholder="Digite o nome do cliente" required>
+                <% } %>
             </div>
-
-
-
             <div class="col-md-6">
                 <label for="inputTelefone" class="form-label">Telefone</label>
                 <% if (resultado.Inscrição) { %>
@@ -108,50 +102,37 @@
                 <input type="text" class="form-control" id="inputTelefone" name="tel" placeholder="(84) 99999-9999" required>
                 <% } %>
             </div>
-
-
-
             <div class="col-md-6">
                 <label for="inputCpf" class="form-label">CPF</label>
                 <% if (resultado.Inscrição) { %>
                 <input type="text" class="form-control" id="inputCpf" name="cpf" placeholder="123.456.789-00" value="<%= resultado.Cpf%>">
                 <%} else {%>
-                    <input type="text" class="form-control" id="inputCpf" name="cpf" placeholder="123.456.789-00" required>
-                    <% } %>
+                <input type="text" class="form-control" id="inputCpf" name="cpf" placeholder="123.456.789-00" required>
+                <% } %>
             </div>
-            
-
-
-
-
             <div class="input-container">
                 <label for="inputDataNascimento">Data de Nascimento</label>
                 <% if (resultado.Inscrição) { %>
                 <div class="input-wrapper">
-                    <span class="icon">📅</span>
                     <input type="date" id="inputDataNascimento" name="nascimento" value="<%= resultado.Aniversario%>">
                 </div>
                 <%} else {%>
-                    <div class="input-wrapper">
-                        <span class="icon">📅</span>
-                        <input type="date" id="inputDataNascimento" name="nascimento" required>
-                    </div>
-                    <% } %>
+                <div class="input-wrapper">
+                    <input type="date" id="inputDataNascimento" name="nascimento" required>
+                </div>
+                <% } %>
             </div>
-
-             <div class="col-12">
+            <div class="col-12">
                 <% if (resultado.Inscrição) { %>
-                    <button type="button" onclick="altera('<%= resultado.Inscrição %>')" class="btn btn-primary">Salvar</button>
-                    <% } else { %>
+                <button type="button" onclick="altera('<%= resultado.Inscrição %>')" class="btn btn-primary">Salvar</button>
+                <% } else { %>
                 <button type="submit" class="btn btn-primary">Salvar</button>
                 <% } %>
                 <a href="/cliente/listar" class="btn btn-danger btn-voltar">Voltar</a>
             </div>
         </form>
     </div>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-
 </body>
 
 </html>

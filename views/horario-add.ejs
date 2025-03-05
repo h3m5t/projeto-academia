@@ -2,111 +2,123 @@
 <html lang="pt-BR">
 
 <head>
-    <title>Cadastro de Pagamentos - Titanium</title>
+    <title>Cadastro de Horários - Titanium</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-   <!-- Estilização da página -->
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        background-color: #f5f5f5;
-    }
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
 
-    .input-container {
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-    }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+        }
 
-    label {
-        font-size: 16px;
-        font-weight: bold;
-    }
+        h1 {
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #007bff;
+        }
 
-    .input-wrapper {
-        position: relative;
-        display: flex;
-        align-items: center;
-    }
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+        }
 
-    input[type="date"] {
-        width: 200px;
-        padding: 10px;
-        padding-left: 35px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        font-size: 16px;
-        background-color: white;
-        appearance: none;
-    }
+        select, input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            font-size: 16px;
+        }
 
-    .icon {
-        position: absolute;
-        left: 10px;
-        pointer-events: none;
-        font-size: 18px;
-        color: #007bff;
-    }
+        .btn-primary {
+            width: 100%;
+            padding: 10px;
+            font-size: 18px;
+            margin-top: 15px;
+            background-color: #007bff;
+            border: none;
+        }
 
-</style>
+        .btn-danger {
+            width: 100%;
+            padding: 10px;
+            font-size: 18px;
+            margin-top: 10px;
+            background-color: #dc3545;
+            border: none;
+        }
 
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-danger:hover {
+            background-color: #a71d2a;
+        }
+    </style>
 
 </head>
 
-
-
 <body>
-    <div class="container mt-5">
-        <h1 class="mb-4">Cadastro de Pagamentos</h1>
-        <form method="POST" action="/pagamento/add" id="cadastroForm" class="row g-3">
+    <div class="container">
+        <h1>Cadastro de Horários</h1>
+        <form method="POST" action="/horarios/add" id="cadastroForm" onsubmit="this.querySelector('button[type=submit]').disabled = true;">
+            <label for="horario-inicio">Horário de Início:</label>
+            <select id="horario-inicio" name="inicio">
+                <option value="05:00">05:00</option>
+                <option value="08:00">08:00</option>
+                <option value="11:00">11:00</option>
+                <option value="14:00">14:00</option>
+                <option value="17:00">17:00</option>
+            </select>
 
-            <div class="col-md-6">
-                <label for="inputNome" class="form-label">Cliente</label>
-                <input type="text" class="form-control" id="inputNome" name="cliente" placeholder="Digite a matricula do cliente" required>
-            </div>
+            <label for="horario-fim">Horário de Fim:</label>
+            <select id="horario-fim" name="fim">
+                <option value="08:00">08:00</option>
+                <option value="11:00">11:00</option>
+                <option value="14:00">14:00</option>
+                <option value="17:00">17:00</option>
+                <option value="20:00">20:00</option>
+            </select>
 
-
-
-            <div class="col-md-6">
-                <label for="inputTelefone" class="form-label">Tipo do Pagamento</label>
-                <input type="text" class="form-control" id="inputTelefone" name="plano" placeholder="Digite Mensal, diaria ou anual" required>
-                
-            </div>
-
-
-
-            <div class="col-md-6">
-                <label for="inputCpf" class="form-label">Valor</label>
-                <input type="text" class="form-control" id="inputCpf" name="valor" placeholder="Digite o valor do pagamento" required>
-                
-            </div>
+            <label for="dia-semana">Dia da Semana:</label>
+            <select id="dia-semana" name="dia">
+                <option value="segunda">Segunda-feira</option>
+                <option value="terca">Terça-feira</option>
+                <option value="quarta">Quarta-feira</option>
+                <option value="quinta">Quinta-feira</option>
+                <option value="sexta">Sexta-feira</option>
+                <option value="sabado">Sábado</option>
+            </select>
             
-        
-            <div class="col-md-6">
-                <label for="inputDataPagamento" class="form-label">Data do pagamento</label>
-                <div class="input-wrapper">
-                    <span class="icon">📅</span>
-                    <input type="date" class="form-control" id="inputDataPagamento" name="data" required>
-                </div>
-            </div>
-            
+            <label for="matricula-funcionario">Matrícula do Funcionário:</label>
+            <input type="text" id="matricula-funcionario" name="mat" placeholder="Digite a matrícula">
 
-
-
-             <div class="col-12">
-                <button type="submit" class="btn btn-primary">Salvar</button>
-            </div>
+            <button type="submit" class="btn btn-primary">Salvar</button>
+            <a href="/horarios/listar" class="btn btn-danger">Voltar</a>
         </form>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
+
 </html>
