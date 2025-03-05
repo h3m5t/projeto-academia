@@ -31,8 +31,6 @@ router.get('/listar', function (req, res) {
 
 
 
-
-
 /* Rota para add Clientes */
 router.get('/add', function (req, res) {
     res.render('cliente-add', { resultado: {} });
@@ -61,7 +59,7 @@ router.post('/add', function (req, res) {
 
 
 /*Rota para saber se o cliente ta em dia ou nao */
-// Rota GET para exibir os detalhes do cliente
+
 router.get('/detalhes/:id', function (req, res) {
     let clienteId = req.params.id;  // Obtém o ID do cliente da URL
 
@@ -110,7 +108,6 @@ router.get('/detalhes/:id', function (req, res) {
 
 
 
-
 /* Rota para editar Clientes */
 router.get('/editar/:id', function (req, res) {
     let id = req.params.id;
@@ -120,7 +117,7 @@ router.get('/editar/:id', function (req, res) {
     cmd += 'FROM tbcliente WHERE id_cliente = ?;'
     db.query(cmd, [id], function (erro, listagem) {
         if (erro) {
-            res.send(erro);
+           return res.send(erro);
         }
         res.render('cliente-add', { resultado: listagem[0] });
     });
@@ -149,14 +146,13 @@ router.put('/editar/:id', function (req, res) {
 
 
 
-
 /* Rota para excluir Clientes */
 router.delete('/apagar/:mat', function (req, res) {
     let mat = req.params.mat;
     let cmd = "DELETE FROM tbcliente WHERE id_cliente = ?;";
     db.query(cmd, [mat], function (erro, listagem) {
         if (erro) {
-            res.send(erro);
+          return  res.send(erro);
         }
         res.json({ sucesso: true });
     });
@@ -167,8 +163,3 @@ module.exports = router;
 
 
 
-/* Consulta para ver interseção entre tbplano e tbcliente
-
- select nome_cliente as Cliente from tbcliente as c inner join tbplanotreino as p ON c.id_cliente = p.id_cliente;
-
-*/ 

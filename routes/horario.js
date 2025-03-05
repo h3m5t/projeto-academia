@@ -16,9 +16,41 @@ router.get('/listar', function(req, res) {
   });
 
 
-  /* Rota para add funcionario a um horario
+  /* Rota para add funcionario a um horario*/
   
-  INSERT INTO tbhorariofuncionario (horario_inicio, horario_fim, dia_semana, mat_funcionario) VALUES ('05:00', '08:00', 'Segunda', 1);*/
+
+router.get('/add',function(req,res){
+  res.render('horario-add')
+})
+
+
+
+router.post('/add',function(req,res){
+  let inicio = req.body.inicio
+  let fim = req.body.fim
+  let dia = req.body.dia
+  let mat = req.body.mat
+
+
+  let cmd = '  INSERT INTO tbhorariofuncionario (horario_inicio, horario_fim, dia_semana, mat_funcionario) VALUES (?,?,?,?);'
+
+  db.query(cmd,[inicio,fim,dia,mat],function()
+})
+
+
+
+
+
+  
+
+
+
+
+
+  
+  
+  
+
 
 
 

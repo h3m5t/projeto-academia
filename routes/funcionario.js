@@ -31,10 +31,6 @@ router.get('/listar', function (req, res) {
 
 
 
-
-
-
-
 /* Rota para add Funcionario */
 router.get('/add', function(req, res) {
   res.render('funcionario-add', { resultado: {} });
@@ -63,9 +59,6 @@ router.post('/add', function(req, res) {
 
 
 
-
-
-
 /* Rota para excluir Funcionario */
 router.delete('/apagar/:mat', function(req, res) {
   let mat = req.params.mat;
@@ -79,10 +72,6 @@ router.delete('/apagar/:mat', function(req, res) {
     res.json({ sucesso: true });
   });
 });
-
-
-
-
 
 
 
