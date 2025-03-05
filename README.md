@@ -25,6 +25,8 @@ Antes de executar o projeto, certifique-se de que o Node.js está instalado no s
 
 
       npm: 10.9.2
+
+ 
  Caso não tenha baixado clique [aqui](https://nodejs.org/en/download) para instalar. 
 
  
