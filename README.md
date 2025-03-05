@@ -21,10 +21,10 @@ Uma parte essencial do sistema é a gestão de pagamentos, onde é possível reg
 1. Verificar o Node.js
 Antes de executar o projeto, certifique-se de que o Node.js está instalado no seu sistema. As versões utilizadas para criação foram:
 
-Node.js: v22.13.1
+      Node.js: v22.13.1
 
 
-npm: 10.9.2
+      npm: 10.9.2
  Caso não tenha baixado clique [aqui](https://nodejs.org/en/download) para instalar. 
 
  
