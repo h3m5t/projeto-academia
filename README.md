@@ -17,7 +17,7 @@ Uma parte essencial do sistema é a gestão de pagamentos, onde é possível reg
 
 
 
-### Passo a Passo para Executar o Projeto
+## Passo a Passo para Executar o Projeto
 1. Verificar o Node.js
 Antes de executar o projeto, certifique-se de que o Node.js está instalado no seu sistema. As versões utilizadas para criação foram:
 
@@ -26,6 +26,8 @@ Node.js: v22.13.1
 
 npm: 10.9.2
  Caso não tenha baixado clique [aqui](https://nodejs.org/en/download) para instalar. 
+
+ 
 2. Instalar o Nodemon
 Abra sua IDE (Integrated Development Environment) e instale a dependência nodemon para otimizar a execução do código. Execute o seguinte comando no terminal:
 
