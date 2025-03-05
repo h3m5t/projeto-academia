@@ -9,7 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-    <!-- Estilização da página -->
+    
     <style>
         .rodape {
             text-align: center;
@@ -20,45 +20,67 @@
             padding: 10px 0;
         }
     </style>
-    <!-- Script que contem a function para excluir funcionarios -->
-    <script>
-        function exclui(Matricula) {
-            const swalWithBootstrapButtons = Swal.mixin({
-                customClass: {
-                    confirmButton: "btn btn-success",
-                    cancelButton: "btn btn-danger"
-                },
-                buttonsStyling: false
-            });
-            swalWithBootstrapButtons.fire({
-                title: "Remover Funcionario",
-                text: "Deseja realmente excluir?",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: "Sim",
-                cancelButtonText: "Não",
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: "/funcionario/apagar/" + Matricula,
-                        type: "DELETE",
-                        sucess: function (res) {
-                            $(location).attr('href', '/funcionario/listar');
-                        },
-                    });
-                } else if (
-                    result.dismiss === Swal.DismissReason.cancel
-                ) {
-                    swalWithBootstrapButtons.fire({
-                        title: "Cancelado com sucesso",
-                        text: ":)",
-                        icon: "error"
-                    });
-                }
-            });
-        }
-    </script>
+
+<script>
+    function exclui(Matricula) {
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: "btn btn-success",
+                cancelButton: "btn btn-danger"
+            },
+            buttonsStyling: false
+        });
+
+        swalWithBootstrapButtons.fire({
+            title: "Remover Funcionário",
+            text: "Deseja realmente excluir?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sim",
+            cancelButtonText: "Não",
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/funcionario/apagar/" + Matricula,
+                    type: "DELETE",
+                    success: function (res) {
+                        if (res.sucesso) {
+                            swalWithBootstrapButtons.fire({
+                                title: "Funcionário Removido!",
+                                text: "O funcionário foi excluído com sucesso.",
+                                icon: "success"
+                            }).then(() => {
+                                window.location.href = "/funcionario/listar";
+                            });
+                        } else {
+                            swalWithBootstrapButtons.fire({
+                                title: "Erro!",
+                                text: res.erro || "Não foi possível excluir o funcionário.",
+                                icon: "error"
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        swalWithBootstrapButtons.fire({
+                            title: "Erro!",
+                            text: "Não foi possível excluir o funcionário.",
+                            icon: "error"
+                        });
+                        console.error("Erro ao excluir:", error);
+                    }
+                });
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                swalWithBootstrapButtons.fire({
+                    title: "Cancelado!",
+                    text: "A exclusão foi cancelada ;)",
+                    icon: "error"
+                });
+            }
+        });
+    }
+</script>
+
 
 </head>
 
@@ -67,20 +89,16 @@
         <h1 class="text-center">Setor Administrativo - Titanium</h1>
         <br>
 
-        <!-- Abas de Navegação -->
         <ul class="nav nav-tabs mb-4">
             <li class="nav-item"><a class="nav-link" href="http://localhost:3000/cliente/listar">Clientes</a></li>
-            <li class="nav-item"><a class="nav-link active"
-                    href="http://localhost:3000/funcionario/listar">Funcionários</a></li>
+            <li class="nav-item"><a class="nav-link active" href="http://localhost:3000/funcionario/listar">Funcionários</a></li>
             <li class="nav-item"><a class="nav-link" href="http://localhost:3000/pagamento/listar">Pagamentos</a></li>
             <li class="nav-item"><a class="nav-link" href="http://localhost:3000/horarios/listar">Horários</a></li>
         </ul>
 
         <div class="tab-content">
-            <!-- Funcionários -->
             <div class="tab-pane fade show active" id="funcionario">
-                <a href="http://localhost:3000/funcionario/add" class="btn btn-primary"
-                    style="margin-bottom: 10px;">Adicionar Funcionário</a>
+                <a href="http://localhost:3000/funcionario/add" class="btn btn-primary" style="margin-bottom: 10px;">Adicionar Funcionário</a>
                 <table class="table table-striped table-bordered">
                     <thead>
                         <tr>
@@ -91,70 +109,43 @@
                     <tbody>
                         <% for (let item of resultado) { %>
                             <tr>
+                                <td><%= item.Nome %></td>
                                 <td>
-                                    <%= item.Nome %>
-                                </td>
-                                <td>
-                                    <a href="/funcionario/editar/<%=item.Matricula%>"
-                                        class="btn btn-outline-secondary">Editar</a>
-                                    <button type="button" class="btn btn-danger"
-                                        onclick="exclui('<%=item.Matricula%>');">
-                                        Excluir
-                                    </button>
-                                    <!-- Botão para abrir modal -->
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                        data-bs-target="#modal-<%= item.Matricula %>">Sobre</button>
+                                    <a href="/funcionario/editar/<%=item.Matricula%>" class="btn btn-outline-secondary">Editar</a>
+                                    <button type="button" class="btn btn-danger" onclick="exclui('<%=item.Matricula%>');">Excluir</button>
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-<%= item.Matricula %>">Sobre</button>
                                 </td>
                             </tr>
-
-                            <!-- Modal -->
-                            <div class="modal fade" id="modal-<%= item.Matricula %>" tabindex="-1"
-                                aria-labelledby="modalLabel-<%= item.Matricula %>" aria-hidden="true">
+                            
+                            <div class="modal fade" id="modal-<%= item.Matricula %>" tabindex="-1" aria-labelledby="modalLabel-<%= item.Matricula %>" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title">Informações do Funcionário</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
                                             <ul>
-                                                <li><strong>Nome:</strong>
-                                                    <%= item.Nome %>
-                                                </li>
-                                                <li><strong>Telefone:</strong>
-                                                    <%= item.contato %>
-                                                </li>
-                                                <li><strong>Data de Nascimento:</strong>
-                                                    <%= item.Aniversario %>
-                                                </li>
-                                                <li><strong>CPF:</strong>
-                                                    <%= item.Cpf %>
-                                                </li>
-                                                <li><strong>Matrícula:</strong>
-                                                    <%= item.Matricula %>
-                                                </li>
-                                                <li><strong>Cargo:</strong>
-                                                    <%= item.Cargo %>
-                                                </li>
-                                                <li><strong>Salario:</strong>
-                                                    <%= item.Salario %>
-                                                </li>
-                                                <li><strong>Carga Horária:</strong>
-                                                    <%= item.CargaH %>
-                                                </li>
+                                                <li><strong>Nome:</strong> <%= item.Nome %></li>
+                                                <li><strong>Telefone:</strong> <%= item.contato %></li>
+                                                <li><strong>Data de Nascimento:</strong> <%= item.Aniversario %></li>
+                                                <li><strong>CPF:</strong> <%= item.Cpf %></li>
+                                                <li><strong>Matrícula:</strong> <%= item.Matricula %></li>
+                                                <li><strong>Cargo:</strong> <%= item.Cargo %></li>
+                                                <li><strong>Salario:</strong> <%= item.Salario %></li>
+                                                <li><strong>Carga Horária:</strong> <%= item.CargaH %></li>
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <% } %>
+                        <% } %>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-    <!-- Rodape presente em todas as páginas -->
+    
     <footer class="rodape"><b>&copy; Todos Direitos Reservados TitaniumFit</b></footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

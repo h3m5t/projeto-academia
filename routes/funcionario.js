@@ -21,13 +21,19 @@ router.get('/listar', function (req, res) {
   
   db.query(cmd, [], function (erro, resultados) {
       if (erro) {
-          return res.send("Erro ao buscar funcionários: " + erro);
+         res.send(erro);
       }
 
-     
+
       res.render('funcionario-lista', { resultado: resultados });
   });
 });
+
+
+
+
+
+
 
 /* Rota para add Funcionario */
 router.get('/add', function(req, res) {
@@ -55,6 +61,11 @@ router.post('/add', function(req, res) {
   });
 });
 
+
+
+
+
+
 /* Rota para excluir Funcionario */
 router.delete('/apagar/:mat', function(req, res) {
   let mat = req.params.mat;
@@ -65,9 +76,14 @@ router.delete('/apagar/:mat', function(req, res) {
       console.error("Erro ao apagar funcionário:", erro.sqlMessage);
       return res.status(500).json({ erro: "Erro ao apagar funcionário." });
     }
-    res.status(200).json({ mensagem: "Funcionário apagado com sucesso!" });
+    res.json({ sucesso: true });
   });
 });
+
+
+
+
+
 
 
 /* Rota para editar Funcionario */

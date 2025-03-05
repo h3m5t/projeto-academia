@@ -32,6 +32,11 @@ router.get('/listar', function(req, res) {
 
 
 
+
+
+
+
+
 /* Rota para add Clientes */
 router.get('/add', function(req, res) {
     res.render('cliente-add', { resultado: {} });
@@ -57,6 +62,10 @@ router.get('/add', function(req, res) {
     });
   });
   
+
+
+
+
 
 
 
@@ -98,6 +107,7 @@ router.get("/detalhes/:id", async (req, res) => {
 
 
 
+
 /* Rota para editar Clientes */
 router.get('/editar/:id', function(req,res){
     let id = req.params.id; 
@@ -112,8 +122,6 @@ router.get('/editar/:id', function(req,res){
       res.render('cliente-add', {resultado: listagem[0]});
     });
 }); 
-
-
 
 router.put('/editar/:id', function(req, res) {
     let id = req.params.id
@@ -142,6 +150,10 @@ router.put('/editar/:id', function(req, res) {
 
 
 
+
+
+
+
 /* Rota para excluir Clientes */
 router.delete('/apagar/:mat', function(req,res){
     let mat = req.params.mat;
@@ -150,7 +162,7 @@ router.delete('/apagar/:mat', function(req,res){
         if(erro){
             res.send(erro);
         }
-        res.redirect(303, '/cliente/listar');
+      res.json({ sucesso: true });
     });
 });
 

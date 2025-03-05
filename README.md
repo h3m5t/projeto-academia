@@ -1,22 +1,41 @@
-Descrição de como executar o projeto: 
 
-1- Baixar o node.js (verificar se está baixado)
-2- Baixar o Vscode
-3- Configuração do ambiente:
-Obs.: Antes de executar os comandos verificar se a pasta criada para o projeto está correta.
-
-  1. Abrir o PowerShell
-  2. cd nomepasta
-  3. npm install -g typescript
-  4. npm install --global --save express express-generator
-  5. express --view=ejs nomeprojeto
-  6. cd nomeprojeto
-  7. npm install
-  8. npm start
-4- Abrir navegador e digitar: "localhost:3000"
-5- 
+## Descrição do projeto - "Projeto-Academia" 
 
 
+vrebvrebvorbvruiebgurgbrg
 
-Descrição sobre o Banco de Dados: 
-1- Baixar o XAMPP
+
+### Passo a Passo para Executar o Projeto
+1. Verificar o Node.js
+Antes de executar o projeto, certifique-se de que o Node.js está instalado no seu sistema. As versões utilizadas para criação foram:
+
+Node.js: v22.13.1
+npm: 10.9.2
+
+2. Instalar o Nodemon
+Abra sua IDE (Integrated Development Environment) e instale a dependência nodemon para otimizar a execução do código. Execute o seguinte comando no terminal:
+
+```bash
+npm install --save nodemon
+```
+O nodemon reinicia automaticamente o servidor sempre que alterações são feitas no código, evitando a necessidade de fechar e abrir novos terminais.
+
+3. Configurar o Banco de Dados
+O projeto está conectado a um banco de dados. Para isso, você precisará de um ambiente de desenvolvimento local.
+
+- Baixe o arquivo do banco de dados que está disponível.
+- Instale o pacote de software XAMPP, que inclui o MySQL e Apache, necessários para a execução do banco de dados.
+- Crie um banco de dados com o nome dbacademia para garantir a compatibilidade com o sistema.
+
+4. Executar o Projeto
+Com o banco de dados configurado e o ambiente local pronto, abra um terminal na sua IDE e execute o comando:
+
+```bash
+npx nodemon server
+```
+
+Após o servidor iniciar, abra o navegador e acesse o seguinte endereço:
+
+```
+localhost:3000/funcionario/listar
+```
