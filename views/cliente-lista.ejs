@@ -110,6 +110,7 @@
                                     </button>
 
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-cliente-<%= cliente.Inscrição %>">Sobre</button>
+                                <a href="/cliente/detalhes/<%=cliente.Inscrição%>" class="btn btn-dark">Pagamentos</a> 
                             </td>
                         </tr>
                         <!-- Modal Cliente -->
@@ -129,10 +130,6 @@
                                             <li><strong>Matrícula:</strong> <%= cliente.Inscrição %></li>
                                             <li><strong>Plano de Treino:</strong> <%= cliente.status_treino %></li>
                                             <hr>
-                                            <h5>Detalhes do Pagamento</h5>
-                                                <li><strong>Valor:</strong> R$ <%= cliente.valor_pagamento ? cliente.valor_pagamento.toFixed(2) : "Não informado" %></li>
-                                                <li><strong>Status:</strong> <%= cliente.status_pagamento ? cliente.status_pagamento : "Desconhecido" %></li>
-                                                <li><strong>Tipo de Pagamento:</strong> <%= cliente.tipo_pagamento ? cliente.tipo_pagamento : "Não especificado" %></li>
                                         </ul>
                                         
                                     </div>

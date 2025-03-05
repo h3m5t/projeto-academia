@@ -11,6 +11,7 @@ var pagamentoRouter = require ('./routes/pagamento');
 var horarioRouter = require ('./routes/horario');
 var cargoRouter = require ('./routes/cargo');
 
+
 var app = express();
 
 // view engine setup
@@ -30,6 +31,7 @@ app.use('/cliente',clienteRouter);
 app.use('/pagamento',pagamentoRouter);
 app.use('/horarios',horarioRouter);
 app.use('/cargo',cargoRouter);
+
 const moment = require('moment');
 app.locals.moment = moment; // Disponibiliza o moment para os templates EJS
 

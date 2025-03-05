@@ -69,7 +69,8 @@ router.post('/add', function(req, res) {
             if(erro3){
               return res.status(500).send('erro ao buscar nome de cliente')
             }
-          res.redirect('/pagamento/listar');
+            res.redirect(`/pagamento/listar`);
+
       });
   });
 });
