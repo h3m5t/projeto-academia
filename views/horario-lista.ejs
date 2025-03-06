@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Lista de Horários</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <style>
         body {
             background-color: #f4f7fa;
@@ -75,15 +76,7 @@
             text-decoration: underline;
         }
 
-        .btn-primary {
-            background-color: #ffffff;
-            color: #333;
-            border-color: #ddd;
-            padding: 12px 25px;
-            font-size: 18px;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
+    
 
 
         /* Modificando a cor do botão ao ser clicado */
@@ -104,6 +97,78 @@
         }
 
     </style>
+
+
+<script>
+    function exclui(mat, inicio, fim, dia) {
+        // Diagnóstico: Verificar se os parâmetros estão sendo passados corretamente
+        console.log("Excluindo:", mat, inicio, fim, dia);
+
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: "btn btn-success",
+                cancelButton: "btn btn-danger"
+            },
+            buttonsStyling: false
+        });
+
+        swalWithBootstrapButtons.fire({
+            title: "Remover Horário",
+            text: "Deseja realmente excluir?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sim",
+            cancelButtonText: "Não",
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Diagnóstico: Verificar a URL antes de enviar a requisição
+                console.log("Enviando requisição AJAX para:", "/horarios/apagar/" + mat + "/" + inicio + "/" + fim + "/" + dia);
+
+                $.ajax({
+                    url: "/horarios/apagar/" + mat + "/" + inicio + "/" + fim + "/" + dia, // Passando os parâmetros para a URL
+                    type: "DELETE",
+                    success: function (res) {
+                        // Diagnóstico: Verificar resposta
+                        console.log("Resposta do servidor:", res);
+
+                        if (res.sucesso) {
+                            swalWithBootstrapButtons.fire({
+                                title: "Horário Removido!",
+                                text: "O horário foi excluído com sucesso.",
+                                icon: "success"
+                            }).then(() => {
+                                window.location.href = "/horarios/listar";
+                            });
+                        } else {
+                            swalWithBootstrapButtons.fire({
+                                title: "Erro!",
+                                text: res.erro || "Não foi possível excluir o horário.",
+                                icon: "error"
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        swalWithBootstrapButtons.fire({
+                            title: "Erro!",
+                            text: "Não foi possível excluir o horário.",
+                            icon: "error"
+                        });
+                        console.error("Erro ao excluir:", error);
+                    }
+                });
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                swalWithBootstrapButtons.fire({
+                    title: "Cancelado!",
+                    text: "A exclusão foi cancelada ;)",
+                    icon: "error"
+                });
+            }
+        });
+    }
+</script>
+
+ 
 </head>
 
 <body>
@@ -118,43 +183,46 @@
             <li class="nav-item"><a class="nav-link active" href="http://localhost:3000/horarios/listar">Horários</a></li>
         </ul>
 
-        <div class="tab-content">
-            <div class="tab-pane fade show active" id="horarios">
-                <!-- Tabela de Horários -->
-            
-                <div class="accordion" id="accordionExample">
-                    <% for (const nome in horariosAgrupados) { %>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="heading-<%= nome %>">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-<%= nome %>" aria-expanded="true" aria-controls="collapse-<%= nome %>">
-                                    <%= nome %>
-                                </button>
-                            </h2>
-                            <div id="collapse-<%= nome %>" class="accordion-collapse collapse" aria-labelledby="heading-<%= nome %>" data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th><strong>Início - Fim</strong></th>
-                                                <th><strong>Dia da Semana</strong></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <% horariosAgrupados[nome].forEach(function(horario) { %>
-                                                <tr>
-                                                    <td><%= horario.horario_inicio %> às <%= horario.horario_fim %></td>
-                                                    <td><%= horario.dia_semana %></td>
-                                                </tr>
-                                            <% }); %>
-                                        </tbody>
-                                    </table>
-                                </div>
+        <div class="accordion" id="accordionExample">
+            <div class="accordion" id="accordionExample">
+                <% Object.keys(horariosAgrupados).forEach(function(nome, index) { %>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading-<%= index %>">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-<%= index %>" aria-expanded="false" aria-controls="collapse-<%= index %>">
+                                <%= nome %>
+                            </button>
+                        </h2>
+                        <div id="collapse-<%= index %>" class="accordion-collapse collapse" aria-labelledby="heading-<%= index %>" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <ul>
+                                    <% horariosAgrupados[nome].forEach(function(horario) { %>
+                                        <li class="d-flex justify-content-between align-items-center">
+                                            <span><%= horario.horario_inicio %> às <%= horario.horario_fim %> - <%= horario.dia_semana %></span>
+                                            <!-- Formulário de Excluir -->
+                                            <form action="/horarios/apagar" method="POST" class="mb-0">
+                                                <input type="hidden" name="mat" value="<%= horario.mat_funcionario %>">
+                                                <input type="hidden" name="inicio" value="<%= horario.horario_inicio %>">
+                                                <input type="hidden" name="fim" value="<%= horario.horario_fim %>">
+                                                <input type="hidden" name="dia" value="<%= horario.dia_semana %>">
+                                                <button type="button" class="btn btn-danger" onclick="exclui('<%= horario.mat_funcionario %>', '<%= horario.horario_inicio %>', '<%= horario.horario_fim %>', '<%= horario.dia_semana %>');">Excluir</button>
+
+                                            </form>
+                                        </li>
+                                    <% }); %>
+                                </ul>
                             </div>
                         </div>
-                    <% } %>
-                </div>
+                    </div>
+                <% }); %>
+            </div>
+            
+        
                 
+                
+                </div>
+            </br>
                 <a href="http://localhost:3000/horarios/add" class="btn btn-primary">Adicionar Horário</a>
+              
             </div>
         </div>
     </div>

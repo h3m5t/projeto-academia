@@ -11,7 +11,7 @@ router.get('/listar', function (req, res) {
         DATE_FORMAT(c.dt_nascimento, "%d/%m/%Y") AS aniversario, 
         c.cpf_cliente AS cpf, 
         c.tel_cliente AS Contato, 
-        c.id_cliente AS Inscrição,
+        c.id_cliente AS Inscrição
     FROM tbcliente AS c
     LEFT JOIN tbplanotreino AS p ON c.id_cliente = p.id_cliente;
 `;

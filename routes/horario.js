@@ -7,36 +7,44 @@ let db = require('../utils/db');
 /* Rota para listar horários */
 router.get('/listar', function(req, res) {
   let cmdSelect = `
-    SELECT h.horario_inicio, h.horario_fim, h.dia_semana, f.nome_func AS nome
-    FROM tbhorariofuncionario h
-    JOIN tbfuncionario f ON h.mat_funcionario = f.mat_funcionario
+      SELECT h.horario_inicio, h.horario_fim, h.dia_semana, f.nome_func AS nome
+      FROM tbhorariofuncionario h
+      JOIN tbfuncionario f ON h.mat_funcionario = f.mat_funcionario
   `;
 
-  db.query(cmdSelect, function(erro, resultados) {
-      if (erro) {
-          console.error("Erro ao buscar horários:", erro);
-          return res.status(500).json({ error: 'Erro ao buscar os horários' });
-      }
-
-      console.log("Resultados encontrados:", resultados);  // Depuração adicional
-
-      // Agrupar os horários por nome de funcionário
-      const horariosAgrupados = resultados.reduce((acc, horario) => {
-          if (!acc[horario.nome]) {
-              acc[horario.nome] = [];  // Cria um novo grupo de horários para o funcionário
+  // Tente executar a consulta e capture possíveis erros
+  try {
+      db.query(cmdSelect, function(erro, resultados) {
+          if (erro) {
+              console.error("Erro ao buscar horários:", erro);
+              // Retorna erro 500 com mais detalhes no corpo da resposta
+              return res.status(500).json({ error: 'Erro ao buscar os horários', detalhes: erro });
           }
-          acc[horario.nome].push(horario);  // Adiciona o horário ao grupo correspondente
-          return acc;
-      }, {});
 
-      console.log("Horários agrupados:", horariosAgrupados);  // Adicionando log para depuração dos dados agrupados
+          // Se a consulta foi bem-sucedida, logamos os resultados
+          console.log("Resultados encontrados:", resultados);
 
-      // Envia os horários agrupados para a view
-      res.render('horario-lista', { horariosAgrupados: horariosAgrupados });
-  });
+          // Agrupar os horários por nome de funcionário
+          const horariosAgrupados = resultados.reduce((acc, horario) => {
+              if (!acc[horario.nome]) {
+                  acc[horario.nome] = [];  // Cria um novo grupo para o funcionário
+              }
+              acc[horario.nome].push(horario);  // Adiciona o horário ao grupo correspondente
+              return acc;
+          }, {});
+
+          console.log("Horários agrupados:", horariosAgrupados);
+
+          // Passa os dados agrupados para a view
+          console.log("Horários na view:", horariosAgrupados);
+          res.render('horario-lista', { horariosAgrupados });
+      });
+  } catch (erro) {
+      // Caso ocorra algum erro inesperado, ele será capturado aqui
+      console.error("Erro inesperado:", erro);
+      return res.status(500).json({ error: 'Erro inesperado', detalhes: erro });
+  }
 });
-
-
 
 
 
@@ -44,7 +52,6 @@ router.get('/listar', function(req, res) {
 router.get('/add', function(req, res) {
     res.render('horario-add');
 });
-
 
 
 router.post('/add', function (req, res) {
@@ -55,7 +62,6 @@ router.post('/add', function (req, res) {
 
   console.log("Dados recebidos:", req.body); // Depuração
 
-  // Inserindo os dados na tabela
   let cmdInsert = 'INSERT INTO tbhorariofuncionario (horario_inicio, horario_fim, dia_semana, mat_funcionario) VALUES (?,?,?,?)';
   
   db.query(cmdInsert, [inicio, fim, dia, mat], function (erro, resultados) {
@@ -66,25 +72,31 @@ router.post('/add', function (req, res) {
 
       console.log("Inserção bem-sucedida:", resultados);
 
-      // Pegamos o nome do funcionário
-      let cmdSelectFuncionario = 'SELECT nome_func AS nome FROM tbfuncionario WHERE mat_funcionario = ?';
+      // Redireciona para a listagem de horários após inserir um novo
+      res.redirect('/horarios/listar');
+  });
+});
 
-      db.query(cmdSelectFuncionario, [mat], function (erroFuncionario, resultadoFuncionario) {
-          if (erroFuncionario) {
-              console.error("Erro ao buscar nome do funcionário:", erroFuncionario);
-              return res.status(500).json({ error: 'Erro ao buscar nome do funcionário' });
-          }
 
-          if (resultadoFuncionario.length === 0) {
-              return res.status(404).json({ error: 'Funcionário não encontrado' });
-          }
 
-          let nomeFuncionario = resultadoFuncionario[0].nome;
-          console.log("Funcionário encontrado:", nomeFuncionario);
+ /* Rota para Excluir*/
+ router.delete('/apagar/:mat/:inicio/:fim/:dia', function(req, res) {
+  // Acessando os parâmetros passados na URL
+  let mat = req.params.mat;
+  let inicio = req.params.inicio;
+  let fim = req.params.fim;
+  let dia = req.params.dia;
 
-          // **Renderiza diretamente a página de listagem de horários enviando o nome do funcionário**
-          res.render('horario-lista');
-      });
+  // Comando SQL para excluir
+  let cmd = "DELETE FROM tbhorariofuncionario WHERE mat_funcionario = ? AND horario_inicio = ? AND horario_fim = ? AND dia_semana = ?;";
+
+  db.query(cmd, [mat, inicio, fim, dia], function(erro, resultado) {
+      if (erro) {
+          console.error("Erro ao apagar horário:", erro.sqlMessage);
+          return res.status(500).json({ erro: "Erro ao apagar horário." });
+      }
+      // Redireciona de volta para a lista de horários após exclusão
+      res.redirect('/horarios/listar');
   });
 });
 
@@ -92,23 +104,6 @@ router.post('/add', function (req, res) {
 
 
 
-
-
-
-  
-
-
-
-
-
-  
-  
-  
-
-
-
-
-  /* Rota para excluir funcionario de um intervalo de horario*/
 
 
 module.exports = router;
