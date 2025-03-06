@@ -12,10 +12,6 @@ router.get('/listar', function (req, res) {
         c.cpf_cliente AS cpf, 
         c.tel_cliente AS Contato, 
         c.id_cliente AS Inscrição,
-        CASE 
-            WHEN p.id_cliente IS NOT NULL THEN 'Possui treino cadastrado'
-            ELSE 'Não possui treino cadastrado'
-        END AS status_treino
     FROM tbcliente AS c
     LEFT JOIN tbplanotreino AS p ON c.id_cliente = p.id_cliente;
 `;
