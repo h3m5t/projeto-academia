@@ -3,7 +3,7 @@ var router = express.Router();
 let db = require('../utils/db');
 
 
-/* Rota para listar Clientes --> */
+/* Rota para listar Clientes */
 router.get('/listar', function (req, res) {
     let cmd = `
     SELECT 
@@ -51,11 +51,6 @@ router.post('/add', function (req, res) {
         res.redirect('/cliente/listar');
     });
 });
-
-
-
-
-
 
 
 

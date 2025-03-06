@@ -20,7 +20,6 @@
             bottom: 0;
             background-color: #f8f9fa;
             padding: 10px 0;
-            font-size: 14px;
         }
 
         h1 {
@@ -99,74 +98,7 @@
     </style>
 
 
-<script>
-    function exclui(mat, inicio, fim, dia) {
-        // Diagnóstico: Verificar se os parâmetros estão sendo passados corretamente
-        console.log("Excluindo:", mat, inicio, fim, dia);
 
-        const swalWithBootstrapButtons = Swal.mixin({
-            customClass: {
-                confirmButton: "btn btn-success",
-                cancelButton: "btn btn-danger"
-            },
-            buttonsStyling: false
-        });
-
-        swalWithBootstrapButtons.fire({
-            title: "Remover Horário",
-            text: "Deseja realmente excluir?",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonText: "Sim",
-            cancelButtonText: "Não",
-            reverseButtons: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Diagnóstico: Verificar a URL antes de enviar a requisição
-                console.log("Enviando requisição AJAX para:", "/horarios/apagar/" + mat + "/" + inicio + "/" + fim + "/" + dia);
-
-                $.ajax({
-                    url: "/horarios/apagar/" + mat + "/" + inicio + "/" + fim + "/" + dia, // Passando os parâmetros para a URL
-                    type: "DELETE",
-                    success: function (res) {
-                        // Diagnóstico: Verificar resposta
-                        console.log("Resposta do servidor:", res);
-
-                        if (res.sucesso) {
-                            swalWithBootstrapButtons.fire({
-                                title: "Horário Removido!",
-                                text: "O horário foi excluído com sucesso.",
-                                icon: "success"
-                            }).then(() => {
-                                window.location.href = "/horarios/listar";
-                            });
-                        } else {
-                            swalWithBootstrapButtons.fire({
-                                title: "Erro!",
-                                text: res.erro || "Não foi possível excluir o horário.",
-                                icon: "error"
-                            });
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        swalWithBootstrapButtons.fire({
-                            title: "Erro!",
-                            text: "Não foi possível excluir o horário.",
-                            icon: "error"
-                        });
-                        console.error("Erro ao excluir:", error);
-                    }
-                });
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-                swalWithBootstrapButtons.fire({
-                    title: "Cancelado!",
-                    text: "A exclusão foi cancelada ;)",
-                    icon: "error"
-                });
-            }
-        });
-    }
-</script>
 
  
 </head>
@@ -204,7 +136,7 @@
                                                 <input type="hidden" name="inicio" value="<%= horario.horario_inicio %>">
                                                 <input type="hidden" name="fim" value="<%= horario.horario_fim %>">
                                                 <input type="hidden" name="dia" value="<%= horario.dia_semana %>">
-                                                <button type="button" class="btn btn-danger" onclick="exclui('<%= horario.mat_funcionario %>', '<%= horario.horario_inicio %>', '<%= horario.horario_fim %>', '<%= horario.dia_semana %>');">Excluir</button>
+                                              
 
                                             </form>
                                         </li>

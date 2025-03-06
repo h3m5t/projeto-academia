@@ -79,26 +79,6 @@ router.post('/add', function (req, res) {
 
 
 
- /* Rota para Excluir*/
- router.delete('/apagar/:mat/:inicio/:fim/:dia', function(req, res) {
-  // Acessando os parâmetros passados na URL
-  let mat = req.params.mat;
-  let inicio = req.params.inicio;
-  let fim = req.params.fim;
-  let dia = req.params.dia;
-
-  // Comando SQL para excluir
-  let cmd = "DELETE FROM tbhorariofuncionario WHERE mat_funcionario = ? AND horario_inicio = ? AND horario_fim = ? AND dia_semana = ?;";
-
-  db.query(cmd, [mat, inicio, fim, dia], function(erro, resultado) {
-      if (erro) {
-          console.error("Erro ao apagar horário:", erro.sqlMessage);
-          return res.status(500).json({ erro: "Erro ao apagar horário." });
-      }
-      // Redireciona de volta para a lista de horários após exclusão
-      res.redirect('/horarios/listar');
-  });
-});
 
 
 
