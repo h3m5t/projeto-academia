@@ -26,7 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 
-app.use('/fun',funcionarioRouter);
+app.use('/funcionario',funcionarioRouter);
 app.use('/cliente',clienteRouter);
 app.use('/pagamento',pagamentoRouter);
 app.use('/horarios',horarioRouter);
