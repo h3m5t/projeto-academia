@@ -25,7 +25,7 @@ router.get('/listar', function (req, res) {
       }
 
 
-      res.render('funcionario-lista', { resultado: resultados });
+      res.json(resultados);
   });
 });
 
@@ -53,7 +53,7 @@ router.post('/add', function(req, res) {
           console.error("Erro ao adicionar funcionário:", erro);
           return res.status(500).send("Erro ao adicionar funcionário.");
       }
-      res.redirect('/funcionario/listar');
+      res.json({ mensagem: "Salvo com sucesso!" });
   });
 });
 
