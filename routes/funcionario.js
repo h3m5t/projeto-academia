@@ -107,7 +107,7 @@ router.put('/editar/:mat', function(req, res) {
           return res.status(500).send('Erro ao modificar o funcionário');
       }
 
-      res.redirect(303, '/funcionario/listar');
+    res.json({ sucesso: true });
     
     
   });

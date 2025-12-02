@@ -21,7 +21,7 @@ router.get('/listar', function (req, res) {
             console.error("Erro na consulta SQL:", erro.sqlMessage);
             return res.status(500).json({ erro: erro.sqlMessage });
         }
-        res.render('cliente-lista', { resultado: listagem });
+       res.json(listagem);
     });
 });
 
@@ -48,7 +48,7 @@ router.post('/add', function (req, res) {
             console.error("Erro ao adicionar cliente:", erro);
             return res.status(500).send("Erro ao adicionar cliente.");
         }
-        res.redirect('/cliente/listar');
+       res.json({ mensagem: "Salvo com sucesso!" });
     });
 });
 
@@ -65,7 +65,7 @@ router.get('/editar/:id', function (req, res) {
         if (erro) {
            return res.send(erro);
         }
-        res.render('cliente-add', { resultado: listagem[0] });
+        res.json({ sucesso: true });
     });
 });
 
@@ -84,7 +84,7 @@ router.put('/editar/:id', function (req, res) {
             return res.status(500).send('Erro ao modificar o cliente');
         }
 
-        res.redirect(303, '/funcionario/listar');
+      res.json({ sucesso: true });
 
 
     });
