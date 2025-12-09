@@ -1,5 +1,6 @@
 var createError = require('http-errors');
 var express = require('express');
+var cors = require('cors');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -13,7 +14,13 @@ var cargoRouter = require ('./routes/cargo');
 var cors = require('cors');
 
 var app = express();
+<<<<<<< HEAD
 app.use(express.json());
+=======
+app.use(cors()); // <--- 2. Liberamos o acesso
+app.use(express.json());
+
+>>>>>>> a0252d654a34bd39721addb986b81ec31d54ad3e
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

@@ -18,8 +18,12 @@ router.get('/listar', function (req, res) {
         if (erro) {
             return res.status(500).json({ erro: erro.sqlMessage });
         }
+<<<<<<< HEAD
         // O Angular recebe os dados aqui
         res.json(listagem);
+=======
+       res.json(listagem);
+>>>>>>> a0252d654a34bd39721addb986b81ec31d54ad3e
     });
 });
 
@@ -36,7 +40,28 @@ router.post('/add', function (req, res) {
         if (erro) {
             return res.status(500).json({ erro: "Erro ao adicionar." });
         }
+<<<<<<< HEAD
         res.json({ mensagem: "Salvo com sucesso!" });
+=======
+       res.json({ mensagem: "Salvo com sucesso!" });
+    });
+});
+
+
+
+/* Rota para editar Clientes */
+router.get('/editar/:id', function (req, res) {
+    let id = req.params.id;
+
+    let cmd = 'SELECT id_cliente AS Inscrição, nome_cliente AS Nome, tel_cliente AS contato,'
+    cmd += 'DATE_FORMAT(dt_nascimento,"%Y-%m-%d") AS Aniversario, cpf_cliente AS Cpf '
+    cmd += 'FROM tbcliente WHERE id_cliente = ?;'
+    db.query(cmd, [id], function (erro, listagem) {
+        if (erro) {
+           return res.send(erro);
+        }
+        res.json({ sucesso: true });
+>>>>>>> a0252d654a34bd39721addb986b81ec31d54ad3e
     });
 });
 
@@ -49,7 +74,28 @@ router.put('/editar/:id', function (req, res) {
 
     db.query(cmd, [nome, telefone, cpf, nascimento, id], function (erro, resultado) {
         if (erro) {
+<<<<<<< HEAD
             return res.status(500).json({ erro: 'Erro ao editar' });
+=======
+            return res.status(500).send('Erro ao modificar o cliente');
+        }
+
+      res.json({ sucesso: true });
+
+
+    });
+});
+
+
+
+/* Rota para excluir Clientes */
+router.delete('/apagar/:mat', function (req, res) {
+    let mat = req.params.mat;
+    let cmd = "DELETE FROM tbcliente WHERE id_cliente = ?;";
+    db.query(cmd, [mat], function (erro, listagem) {
+        if (erro) {
+          return  res.send(erro);
+>>>>>>> a0252d654a34bd39721addb986b81ec31d54ad3e
         }
         res.json({ sucesso: true });
     });

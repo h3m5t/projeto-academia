@@ -53,7 +53,11 @@ router.post('/add', function(req, res) {
           console.error("Erro ao adicionar funcionário:", erro);
           return res.status(500).send("Erro ao adicionar funcionário.");
       }
+<<<<<<< HEAD
       res.json({ sucesso: true, mensagem: "Funcionário salvo!" });
+=======
+      res.json({ mensagem: "Salvo com sucesso!" });
+>>>>>>> a0252d654a34bd39721addb986b81ec31d54ad3e
   });
 });
 
@@ -107,7 +111,7 @@ router.put('/editar/:mat', function(req, res) {
           return res.status(500).send('Erro ao modificar o funcionário');
       }
 
-      res.redirect(303, '/funcionario/listar');
+    res.json({ sucesso: true });
     
     
   });
