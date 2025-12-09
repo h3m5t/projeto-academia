@@ -10,9 +10,10 @@ var clienteRouter = require ('./routes/cliente');
 var pagamentoRouter = require ('./routes/pagamento');
 var horarioRouter = require ('./routes/horario');
 var cargoRouter = require ('./routes/cargo');
-
+var cors = require('cors');
 
 var app = express();
+app.use(express.json());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -24,7 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
+app.use(cors());
 
 app.use('/funcionario',funcionarioRouter);
 app.use('/cliente',clienteRouter);

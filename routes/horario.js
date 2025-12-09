@@ -2,88 +2,66 @@ var express = require('express');
 var router = express.Router();
 let db = require('../utils/db');
 
-
-
-/* Rota para listar horários */
+/* 1. LISTAR HORÁRIOS (Agrupados por Funcionário) */
 router.get('/listar', function(req, res) {
-  let cmdSelect = `
-      SELECT h.horario_inicio, h.horario_fim, h.dia_semana, f.nome_func AS nome
-      FROM tbhorariofuncionario h
-      JOIN tbfuncionario f ON h.mat_funcionario = f.mat_funcionario
-  `;
+    let cmdSelect = `
+        SELECT h.horario_inicio, h.horario_fim, h.dia_semana, f.nome_func AS nome
+        FROM tbhorariofuncionario h
+        JOIN tbfuncionario f ON h.mat_funcionario = f.mat_funcionario
+        ORDER BY f.nome_func, h.dia_semana;
+    `;
 
-  // Tente executar a consulta e capture possíveis erros
-  try {
-      db.query(cmdSelect, function(erro, resultados) {
-          if (erro) {
-              console.error("Erro ao buscar horários:", erro);
-              // Retorna erro 500 com mais detalhes no corpo da resposta
-              return res.status(500).json({ error: 'Erro ao buscar os horários', detalhes: erro });
-          }
+    db.query(cmdSelect, function(erro, resultados) {
+        if (erro) {
+            return res.status(500).json({ error: erro.sqlMessage });
+        }
 
-          // Se a consulta foi bem-sucedida, logamos os resultados
-          console.log("Resultados encontrados:", resultados);
+        // Lógica de Agrupamento (Transforma lista chata em lista hierárquica)
+        const agrupado = resultados.reduce((acc, curr) => {
+            const nome = curr.nome;
+            if (!acc[nome]) {
+                acc[nome] = [];
+            }
+            acc[nome].push({
+                dia: curr.dia_semana,
+                inicio: curr.horario_inicio,
+                fim: curr.horario_fim
+            });
+            return acc;
+        }, {});
 
-          // Agrupar os horários por nome de funcionário
-          const horariosAgrupados = resultados.reduce((acc, horario) => {
-              if (!acc[horario.nome]) {
-                  acc[horario.nome] = [];  // Cria um novo grupo para o funcionário
-              }
-              acc[horario.nome].push(horario);  // Adiciona o horário ao grupo correspondente
-              return acc;
-          }, {});
+        // Converte Objeto em Array para o Angular ler fácil: 
+        // De: { "Joao": [..], "Maria": [..] } 
+        // Para: [ { nome: "Joao", turnos: [..] }, { nome: "Maria", turnos: [..] } ]
+        const respostaFinal = Object.keys(agrupado).map(key => ({
+            nome: key,
+            turnos: agrupado[key]
+        }));
 
-          console.log("Horários agrupados:", horariosAgrupados);
-
-          // Passa os dados agrupados para a view
-          console.log("Horários na view:", horariosAgrupados);
-          res.render('horario-lista', { horariosAgrupados });
-      });
-  } catch (erro) {
-      // Caso ocorra algum erro inesperado, ele será capturado aqui
-      console.error("Erro inesperado:", erro);
-      return res.status(500).json({ error: 'Erro inesperado', detalhes: erro });
-  }
+        res.json(respostaFinal);
+    });
 });
 
-
-
-  /* Rota para add funcionario a um horario*/
-router.get('/add', function(req, res) {
-    res.render('horario-add');
+/* 2. LISTAR FUNCIONÁRIOS (Para o Dropdown de Cadastro) */
+router.get('/funcionarios', function(req, res) {
+    db.query('SELECT mat_funcionario, nome_func FROM tbfuncionario', function(erro, result) {
+        if (erro) return res.status(500).json({ error: erro });
+        res.json(result);
+    });
 });
 
-
+/* 3. ADICIONAR HORÁRIO */
 router.post('/add', function (req, res) {
-  let inicio = req.body.inicio;
-  let fim = req.body.fim;
-  let dia = req.body.dia;
-  let mat = req.body.mat;
+    let { inicio, fim, dia, mat } = req.body;
 
-  console.log("Dados recebidos:", req.body); // Depuração
-
-  let cmdInsert = 'INSERT INTO tbhorariofuncionario (horario_inicio, horario_fim, dia_semana, mat_funcionario) VALUES (?,?,?,?)';
-  
-  db.query(cmdInsert, [inicio, fim, dia, mat], function (erro, resultados) {
-      if (erro) {
-          console.error("Erro ao adicionar horário:", erro);
-          return res.status(500).json({ error: 'Erro ao adicionar horário' });
-      }
-
-      console.log("Inserção bem-sucedida:", resultados);
-
-      // Redireciona para a listagem de horários após inserir um novo
-      res.redirect('/horarios/listar');
-  });
+    let cmdInsert = 'INSERT INTO tbhorariofuncionario (horario_inicio, horario_fim, dia_semana, mat_funcionario) VALUES (?,?,?,?)';
+    
+    db.query(cmdInsert, [inicio, fim, dia, mat], function (erro, resultados) {
+        if (erro) {
+            return res.status(500).json({ error: 'Erro ao adicionar horário' });
+        }
+        res.json({ mensagem: "Horário cadastrado com sucesso!" });
+    });
 });
-
-
-
-
-
-
-
-
-
 
 module.exports = router;

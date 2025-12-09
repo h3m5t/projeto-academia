@@ -4,7 +4,7 @@ host: 'localhost',
 user: 'root',
 password: '',
 port: 3306,
-database: 'dbacademiaa',
+database: 'dbacademia',
 multipleStatements: true
 });
 db.connect(function(erro) {
