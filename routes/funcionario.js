@@ -2,40 +2,32 @@ var express = require('express');
 var router = express.Router();
 let db = require('../utils/db');
 
-
-/* Rota listar funcionários*/
-router.get('/listar', function (req, res) {
-  let cmd  = `
-  SELECT 
+/* LISTAR FUNCIONÁRIOS (Corrigido: Sem Salário) */
+router.get('/listar', function(req, res) {
+  let cmd = `
+    SELECT 
       f.mat_funcionario AS Matricula, 
       f.nome_func AS Nome, 
-      f.tel_func AS contato,
+      f.cpf_func AS Cpf, 
       DATE_FORMAT(f.dt_nascimento, "%d/%m/%Y") AS Aniversario, 
-      f.cpf_func AS Cpf,
-      c.nome_cargo AS Cargo,
-      c.carga_horaria AS CargaH,
-      c.salario_cargo AS Salario
-  FROM tbfuncionario AS f
-  LEFT JOIN tbcargo AS c ON f.id_cargo = c.id_cargo;
-`;
+      c.nome_cargo AS Cargo, 
+      f.tel_func AS contato 
+    FROM tbfuncionario AS f
+    LEFT JOIN tbcargo AS c ON c.id_cargo = f.id_cargo;
+  `;
   
-  db.query(cmd, [], function (erro, resultados) {
-      if (erro) {
-         res.send(erro);
-      }
-
-
-      res.json(resultados);
+  // Note que removi "c.salario AS Salario" da lista acima
+  
+  db.query(cmd, [], function(erro, listagem) {
+    if (erro) {
+      console.error(erro);
+      return res.status(500).json({ erro: erro.sqlMessage });
+    }
+    res.json(listagem);
   });
 });
 
-
-
-/* Rota para add Funcionario */
-router.get('/add', function(req, res) {
-  res.render('funcionario-add', { resultado: {} });
-});
-
+/* ADICIONAR FUNCIONÁRIO */
 router.post('/add', function(req, res) {
   let nome = req.body.nome;
   let cpf = req.body.cpf;
@@ -43,35 +35,44 @@ router.post('/add', function(req, res) {
   let nascimento = req.body.nascimento;
   let cargo = req.body.cargo;
 
-  /*Corrigir formato de nascimento */
   let nascimentoFormatado = nascimento ? new Date(nascimento).toISOString().split('T')[0] : null;
 
   let cmd = 'INSERT INTO tbfuncionario (nome_func, tel_func, cpf_func, dt_nascimento, id_cargo) VALUES (?, ?, ?, ?, ?);';
-
+  
   db.query(cmd, [nome, telefone, cpf, nascimentoFormatado, cargo], function(erro, resultados) {
-      if (erro) {
-          console.error("Erro ao adicionar funcionário:", erro);
-          return res.status(500).send("Erro ao adicionar funcionário.");
-      }
-<<<<<<< HEAD
-      res.json({ sucesso: true, mensagem: "Funcionário salvo!" });
-=======
-      res.json({ mensagem: "Salvo com sucesso!" });
->>>>>>> a0252d654a34bd39721addb986b81ec31d54ad3e
+    if (erro) {
+      return res.status(500).json({ erro: "Erro ao adicionar funcionário." });
+    }
+    res.json({ sucesso: true, mensagem: "Funcionário salvo!" });
   });
 });
 
+/* EDITAR FUNCIONÁRIO */
+router.put('/editar/:id', function(req, res) {
+  let id = req.params.id;
+  let nome = req.body.nome;
+  let cpf = req.body.cpf;
+  let telefone = req.body.telefone;
+  let nascimento = req.body.nascimento;
+  let cargo = req.body.cargo;
 
+  let cmd = 'UPDATE tbfuncionario SET nome_func = ?, tel_func = ?, cpf_func = ?, dt_nascimento = ?, id_cargo = ? WHERE mat_funcionario = ?;';
 
-/* Rota para excluir Funcionario */
+  db.query(cmd, [nome, telefone, cpf, nascimento, cargo, id], function(erro, resultado) {
+    if (erro) {
+      return res.status(500).json({ erro: 'Erro ao modificar o funcionário' });
+    }
+    res.json({ sucesso: true });
+  });
+});
+
+/* EXCLUIR FUNCIONÁRIO */
 router.delete('/apagar/:mat', function(req, res) {
   let mat = req.params.mat;
   let cmd = "DELETE FROM tbfuncionario WHERE mat_funcionario = ?;";
-
-  db.query(cmd, [mat], function(erro, resultado) {
+  db.query(cmd, [mat], function(erro, listagem) {
     if (erro) {
-      console.error("Erro ao apagar funcionário:", erro.sqlMessage);
-      return res.status(500).json({ erro: "Erro ao apagar funcionário." });
+      return res.status(500).json({ erro: erro.sqlMessage });
     }
     res.json({ sucesso: true });
   });
