@@ -38,6 +38,7 @@ router.get('/historico/:id_cliente', function(req, res) {
     });
 });
 
+
 /* 3. ADICIONAR PAGAMENTO ATUALIZADO */
 router.post('/add', function(req, res) {
     // Agora recebemos também o 'plano'

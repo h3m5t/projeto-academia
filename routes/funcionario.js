@@ -22,7 +22,7 @@ router.get('/listar', function(req, res) {
   });
 });
 
-/* 2. LISTAR CARGOS (ESSA É A ROTA QUE FALTA) */
+/* 2. LISTAR CARGOS */
 router.get('/cargos', function(req, res) {
   let cmd = 'SELECT id_cargo, nome_cargo FROM tbcargo;';
   db.query(cmd, [], function(erro, listagem) {
@@ -35,7 +35,6 @@ router.get('/cargos', function(req, res) {
 router.post('/add', function(req, res) {
   let { nome, telefone, cpf, nascimento, cargo } = req.body;
   let nascimentoFormatado = nascimento ? new Date(nascimento).toISOString().split('T')[0] : null;
-  
   let cmd = 'INSERT INTO tbfuncionario (nome_func, tel_func, cpf_func, dt_nascimento, id_cargo) VALUES (?, ?, ?, ?, ?);';
   
   db.query(cmd, [nome, telefone, cpf, nascimentoFormatado, cargo], function(erro, resultados) {
@@ -48,7 +47,6 @@ router.post('/add', function(req, res) {
 router.put('/editar/:id', function(req, res) {
   let id = req.params.id;
   let { nome, telefone, cpf, nascimento, cargo } = req.body;
-  
   let cmd = 'UPDATE tbfuncionario SET nome_func = ?, tel_func = ?, cpf_func = ?, dt_nascimento = ?, id_cargo = ? WHERE mat_funcionario = ?;';
   
   db.query(cmd, [nome, telefone, cpf, nascimento, cargo, id], function(erro, resultado) {
@@ -57,12 +55,16 @@ router.put('/editar/:id', function(req, res) {
   });
 });
 
-/* 5. EXCLUIR FUNCIONÁRIO */
+/* 5. EXCLUIR FUNCIONÁRIO (Simples - Como era antes) */
 router.delete('/apagar/:mat', function(req, res) {
   let mat = req.params.mat;
   let cmd = "DELETE FROM tbfuncionario WHERE mat_funcionario = ?;";
-  db.query(cmd, [mat], function(erro, listagem) {
-    if (erro) return res.status(500).json({ erro: erro.sqlMessage });
+  
+  db.query(cmd, [mat], function(erro) {
+    if (erro) {
+        // Retorna o erro se houver vínculos (Foreign Key)
+        return res.status(500).json({ erro: erro.sqlMessage });
+    }
     res.json({ sucesso: true });
   });
 });
