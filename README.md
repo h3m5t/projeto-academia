@@ -1,4 +1,4 @@
-# 🏋Projeto Academia - Back-end (API)
+# Projeto Academia - Back-end (API)
 
 Este repositório contém o servidor (Back-end) do sistema de gerenciamento "Titanium". Ele foi desenvolvido utilizando **Node.js** e atua como uma API, conectando o Front-end ao banco de dados MySQL.
 
