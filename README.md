@@ -6,22 +6,22 @@ Este repositório contém o servidor (Back-end) do sistema de gerenciamento "Tit
 
 ## 🚀 Tecnologias Utilizadas
 
-* [cite_start]**Linguagem:** JavaScript (Node.js v22.x) [cite: 7]
+* **Linguagem:** JavaScript (Node.js v22.x)
 * **Framework:** Express
-* [cite_start]**Banco de Dados:** MySQL (via XAMPP/phpMyAdmin) [cite: 487]
-* [cite_start]**Ferramentas:** Nodemon (para reinicialização automática) [cite: 499]
+* **Banco de Dados:** MySQL (via XAMPP/phpMyAdmin) 
+* **Ferramentas:** Nodemon (para reinicialização automática) 
 
 ## ⚙️ Pré-requisitos
 
 Antes de começar, certifique-se de ter instalado:
-1.  [cite_start]**Node.js** (Versão 22.13.1 ou superior)[cite: 486].
-2.  [cite_start]**XAMPP** (ou qualquer servidor MySQL rodando na porta padrão 3306)[cite: 487].
+1.  **Node.js** (Versão 22.13.1 ou superior)
+2.  **XAMPP** (ou qualquer servidor MySQL rodando na porta padrão 3306)
 
 ## 🗄️ Configuração do Banco de Dados
 
 1.  Abra o painel do **XAMPP** e inicie o serviço **MySQL** (Start).
 2.  Acesse o **phpMyAdmin** (`http://localhost/phpmyadmin`).
-3.  [cite_start]Crie um novo banco de dados chamado: `dbacademia`[cite: 494].
+3.  Crie um novo banco de dados chamado: `dbacademia`
 4.  Importe o arquivo `.sql` disponível na pasta `database/` deste projeto ou execute o script de criação das tabelas.
 
 ## 🔧 Como Rodar o Servidor
@@ -32,13 +32,11 @@ Antes de começar, certifique-se de ter instalado:
     npm install
     npm install --save nodemon
     ```
-    [cite_start]*[cite: 498, 490]*
 
 3.  Inicie o servidor:
     ```bash
     npx nodemon server
     ```
-    [cite_start]*[cite: 499]*
 
 4.  Se tudo der certo, você verá a mensagem "show" ou similar no terminal.
 5.  O servidor estará rodando em: `http://localhost:3000`.
@@ -50,4 +48,4 @@ Antes de começar, certifique-se de ter instalado:
 * **Pagamentos:** `GET /pagamento/pagantes`
 
 ---
-**Desenvolvido por:** [Seu Nome/Grupo]
+
