@@ -1,59 +1,53 @@
+# 🏋️‍♂️ Projeto Academia - Back-end (API)
 
-## Descrição do projeto - "Projeto-Academia" 
+Este repositório contém o servidor (Back-end) do sistema de gerenciamento "Titanium". Ele foi desenvolvido utilizando **Node.js** e atua como uma API, conectando o Front-end ao banco de dados MySQL.
 
+> **Nota:** Este projeto originou-se de um sistema legado (antigo projeto de PABD em EJS) e foi adaptado para servir dados via JSON para a nova interface em Angular.
 
-Este projeto visa otimizar a administração de uma academia, buscando facilitar o gerenciamento de três áreas principais: funcionários, clientes e pagamentos. 
-Com o objetivo de simplificar o processo de controle interno e melhorar a eficiência operacional, 
-o sistema fornece funcionalidades que permitem:
+## 🚀 Tecnologias Utilizadas
 
-1. Gestão de Funcionários:
-O projeto permite que os administradores cadastrem, editem e excluam informações dos funcionários da academia, como treinadores, recepcionistas e outros colaboradores. Além disso, possibilita o controle de horários de trabalho, carga horária e outros dados importantes relacionados à performance e organização da equipe.
+* [cite_start]**Linguagem:** JavaScript (Node.js v22.x) [cite: 7]
+* **Framework:** Express
+* [cite_start]**Banco de Dados:** MySQL (via XAMPP/phpMyAdmin) [cite: 487]
+* [cite_start]**Ferramentas:** Nodemon (para reinicialização automática) [cite: 499]
 
-2. Gerenciamento de Clientes:
-O sistema facilita o cadastro dos alunos, mantendo registros atualizados sobre seus dados pessoais, planos de treino. Isso permite uma visão clara sobre cada cliente e o atendimento das suas necessidades específicas.
+## ⚙️ Pré-requisitos
 
-3. Controle de Pagamentos:
-Uma parte essencial do sistema é a gestão de pagamentos, onde é possível registrar as transações feitas pelos alunos, verificar status de pagamento (pago, pendente, etc.), e acompanhar o histórico de cada cliente em relação aos valores pagos.
+Antes de começar, certifique-se de ter instalado:
+1.  [cite_start]**Node.js** (Versão 22.13.1 ou superior)[cite: 486].
+2.  [cite_start]**XAMPP** (ou qualquer servidor MySQL rodando na porta padrão 3306)[cite: 487].
 
+## 🗄️ Configuração do Banco de Dados
 
+1.  Abra o painel do **XAMPP** e inicie o serviço **MySQL** (Start).
+2.  Acesse o **phpMyAdmin** (`http://localhost/phpmyadmin`).
+3.  [cite_start]Crie um novo banco de dados chamado: `dbacademia`[cite: 494].
+4.  Importe o arquivo `.sql` disponível na pasta `database/` deste projeto ou execute o script de criação das tabelas.
 
-## Passo a Passo para Executar o Projeto
-1. Verificar o Node.js
-Antes de executar o projeto, certifique-se de que o Node.js está instalado no seu sistema. As versões utilizadas para criação foram:
+## 🔧 Como Rodar o Servidor
 
-      Node.js: v22.13.1
+1.  Abra o terminal na pasta deste projeto.
+2.  Instale as dependências necessárias:
+    ```bash
+    npm install
+    npm install --save nodemon
+    ```
+    [cite_start]*[cite: 498, 490]*
 
+3.  Inicie o servidor:
+    ```bash
+    npx nodemon server
+    ```
+    [cite_start]*[cite: 499]*
 
-      npm: 10.9.2
+4.  Se tudo der certo, você verá a mensagem "show" ou similar no terminal.
+5.  O servidor estará rodando em: `http://localhost:3000`.
 
- 
- Caso não tenha baixado clique [aqui](https://nodejs.org/en/download) para instalar. 
+## 🔗 Rotas Principais
 
- 
-2. Instalar o Nodemon
-Abra sua IDE (Integrated Development Environment) e instale a dependência nodemon para otimizar a execução do código. Execute o seguinte comando no terminal:
+* **Funcionários:** `GET /funcionario/listar`
+* **Clientes:** `GET /cliente/listar`
+* **Pagamentos:** `GET /pagamento/pagantes`
 
-```bash
-npm install --save nodemon
-```
-O nodemon reinicia automaticamente o servidor sempre que alterações são feitas no código, evitando a necessidade de fechar e abrir novos terminais.
-
-3. Configurar o Banco de Dados
-O projeto está conectado a um banco de dados. Para isso, você precisará de um ambiente de desenvolvimento local.
-
-- Baixe o arquivo do banco de dados que está disponível.
-- Instale o pacote de software XAMPP, que inclui o MySQL e Apache, necessários para a execução do banco de dados.
-- Crie um banco de dados com o nome dbacademia para garantir a compatibilidade com o sistema.
-
-4. Executar o Projeto
-Com o banco de dados configurado e o ambiente local pronto, abra um terminal na sua IDE e execute o comando:
-
-```bash
-npx nodemon server
-```
-
-Após o servidor iniciar, abra o navegador e acesse o seguinte endereço:
-
-```
-localhost:3000/funcionario/listar
-```
+---
+**Desenvolvido por:** [Seu Nome/Grupo]
